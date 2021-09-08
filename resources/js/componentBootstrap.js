@@ -1,0 +1,1 @@
+Vue.component('test',require('./components/test.vue').default)
