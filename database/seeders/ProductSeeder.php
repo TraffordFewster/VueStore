@@ -15,19 +15,19 @@ class ProductSeeder extends Seeder
     public function run()
     {
         $devMinute = Product::firstOrCreate([
-            'name' => 'DevMinutes',
+            'name' => 'Dev Minutes',
             'price' => 35.99,
         ]);
         $devMinute->save();
 
         $hrMinute = Product::firstOrCreate([
-            'name' => 'HrMinutes',
+            'name' => 'Hr Minutes',
             'price' => 23.50,
         ]);
         $hrMinute->save();
 
         $trainingMinute = Product::firstOrCreate([
-            'name' => 'HrMinutes',
+            'name' => 'Training Minutes',
             'price' => 5.99,
         ]);
         $trainingMinute->save();
