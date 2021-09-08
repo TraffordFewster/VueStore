@@ -1,1 +1,1 @@
-Vue.component('test',require('./components/test.vue').default)
+//Vue.component('test',require('./components/test.vue').default)
