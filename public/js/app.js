@@ -2331,6 +2331,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (data) {
         console.log(data);
         submitThis.$emit('update', _objectSpread({}, submitThis.newItem));
+        setTimeout(function () {
+          return submitThis.close();
+        }, 0);
       })["catch"](function (err) {
         submitThis.errors = err.response.data.errors;
       })["finally"](function () {
