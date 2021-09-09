@@ -1,35 +1,26 @@
 <template>
-    <div class="modal fade" :class="{show : show, 'd-block' : show}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" v-on:click.self="close">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" >Edit - {{item.title}}</h5>
-                    <button v-on:click="close" type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    <tmodal :show="show" @close="close" :title="'Edit - ' + item.title">
+        <form action="">
+            <div class="modal-body">
+                <errordisplay :errors="errors"></errordisplay>
+
+                <div class="mb-3">
+                    <label for="Title" class="form-label">Item Name</label>
+                    <input v-on:keydown="clearError('name')" :class="{'border border-danger':nameError}" v-model="newItem.title" type="text" class="form-control" id="Title">
                 </div>
-                <form action="">
-                    <div class="modal-body">
-                        <errordisplay :errors="errors"></errordisplay>
 
-                            <div class="mb-3">
-                                <label for="Title" class="form-label">Item Name</label>
-                                <input v-on:keydown="clearError('name')" :class="{'border border-danger':nameError}" v-model="newItem.title" type="text" class="form-control" id="Title">
-                            </div>
+                <div class="mb-3">
+                    <label for="Price" class="form-label">Item Price</label>
+                    <input v-on:keydown="clearError('price')" :class="{'border border-danger':priceError}" v-model="newItem.price" type="number" class="form-control" id="Price">
+                </div>
 
-                            <div class="mb-3">
-                                <label for="Price" class="form-label">Item Price</label>
-                                <input v-on:keydown="clearError('price')" :class="{'border border-danger':priceError}" v-model="newItem.price" type="number" class="form-control" id="Price">
-                            </div>
-
-
-                    </div>
-                    <div class="modal-footer">
-                        <button v-on:click="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <input :disabled="submitDisabled" type="submit" class="btn btn-primary" v-on:click="submit">
-                    </div>
-                </form>
             </div>
-        </div>
-    </div>
+            <div class="modal-footer">
+                <button v-on:click="close" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <input :disabled="submitDisabled" type="submit" class="btn btn-primary" v-on:click="submit">
+            </div>
+        </form>
+    </tmodal>
 </template>
 
 <script>

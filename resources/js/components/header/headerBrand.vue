@@ -1,5 +1,5 @@
 <template>
-  <a class="navbar-brand text-white" href="#">
+  <a class="navbar-brand text-white" href="/">
     <img src="https://upload.wikimedia.org/wikipedia/commons/9/95/Vue.js_Logo_2.svg" width="30" height="30" class="d-inline-block align-top" alt="">
     VueStore
   </a>

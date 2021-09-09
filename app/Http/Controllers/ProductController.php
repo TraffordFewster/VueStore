@@ -10,7 +10,7 @@ class ProductController extends Controller
     
     private $validations = [
         'name' => 'required|max:255|min:3',
-        'price' => 'required|numeric|between:0,1000.99'
+        'price' => "required|regex:/^\d*(\.\d{1,2})?$/"
     ];
     /**
      * Display a listing of the resource.
@@ -88,6 +88,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
     }
 }
