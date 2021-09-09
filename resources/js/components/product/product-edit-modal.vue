@@ -56,7 +56,6 @@ export default {
             submitThis.checking = true;
             axios.put("/product/" + this.item.id, {name: submitThis.newItem.title, price: submitThis.newItem.price})
             .then(data => {
-                console.log(data)
                 submitThis.$emit('update', {...submitThis.newItem});
                 setTimeout( ()=> submitThis.close(), 0)
             })

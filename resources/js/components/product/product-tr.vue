@@ -2,7 +2,7 @@
   <tr>
       <td class="text-center align-middle">{{this.item.id}}</td>
       <td class="text-center align-middle">{{this.item.title}}</td>
-      <td class="text-center align-middle">{{this.item.price}}</td>
+      <td class="text-center align-middle">£{{this.item.price}}</td>
       <td class="text-center align-middle">
           <!-- <button type="button" class="btn btn-primary">Edit</button> -->
           <producteditbutton :item="item" @updated="updated"></producteditbutton>

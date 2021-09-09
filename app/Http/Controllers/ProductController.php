@@ -30,7 +30,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+
     }
 
     /**
@@ -41,7 +41,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate($this->validations);
+        $product = Product::create($validated);
+        $product->save();
+        return $product;
     }
 
     /**

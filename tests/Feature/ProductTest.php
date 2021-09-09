@@ -39,7 +39,7 @@ class ProductTest extends TestCase
         $data = ['name' => 'Testing Minutes', 'price' => '10.80'];
 
         $this->assertDatabaseMissing('products', $data);
-        $response = $this->post("/products", $data);
+        $response = $this->post("/product", $data);
         $this->assertDatabaseHas('products', $data);
 
     }
@@ -47,47 +47,47 @@ class ProductTest extends TestCase
     public function test_remove()
     {
         $this->assertDatabaseHas('products', ['id' => 1]);
-        $response = $this->delete("/products/1");
+        $response = $this->delete("/product/1");
         $this->assertDatabaseMissing('products', ['id' => 1]);
     }
 
     public function test_edit()
     {
-        $data = ['name' => 'DevMinutes', 'price' => '35.99'];
+        $data = ['name' => 'Dev Minutes', 'price' => '35.99'];
         $dataEdited = ['name' => 'DevMinutes', 'price' => '45.99'];
         $this->assertDatabaseHas('products', $data);
-        $response = $this->put('/products/1', $dataEdited);
+        $response = $this->put('/product/1', $dataEdited);
         $this->assertDatabaseHas('products', $dataEdited);
-        $this->assertDatabaseMissing($data);
+        $this->assertDatabaseMissing('products',$data);
     }
 
     public function test_view_valid()
     {
-        $response = $this->get('/products/1');
+        $response = $this->get('/product/1');
         $response->assertStatus(200);
     }
 
     public function test_view_nonExistant()
     {
-        $response = $this->get('/products/10');
+        $response = $this->get('/product/10');
         $response->assertStatus(404);
     }
 
     public function test_edit_valid()
     {
-        $response = $this->get('/products/1/edit');
+        $response = $this->get('/product/1/edit');
         $response->assertStatus(200);
     }
 
     public function test_edit_nonExistant()
     {
-        $response = $this->get('/products/10/edit');
+        $response = $this->get('/product/10/edit');
         $response->assertStatus(404);
     }
 
     public function test_index_200()
     {
-        $response = $this->get('/products');
+        $response = $this->get('/product');
         $response->assertStatus(200);
     }
 }
