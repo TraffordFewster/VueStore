@@ -63,31 +63,31 @@ class ProductTest extends TestCase
 
     public function test_view_valid()
     {
-        $response->get('/products/1');
+        $response = $this->get('/products/1');
         $response->assertStatus(200);
     }
 
     public function test_view_nonExistant()
     {
-        $response->get('/products/10');
+        $response = $this->get('/products/10');
         $response->assertStatus(404);
     }
 
     public function test_edit_valid()
     {
-        $response->get('/products/1/edit');
+        $response = $this->get('/products/1/edit');
         $response->assertStatus(200);
     }
 
     public function test_edit_nonExistant()
     {
-        $response->get('/products/10/edit');
+        $response = $this->get('/products/10/edit');
         $response->assertStatus(404);
     }
 
     public function test_index_200()
     {
-        $response->get('/products');
+        $response = $this->get('/products');
         $response->assertStatus(200);
     }
 }
