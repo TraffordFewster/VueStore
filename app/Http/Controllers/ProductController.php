@@ -7,6 +7,11 @@ use Illuminate\Http\Request;
 
 class ProductController extends Controller
 {
+    
+    private $validations = [
+        'name' => 'required|max:255|min:3',
+        'price' => 'required|numeric|between:0,1000.99'
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -69,8 +74,10 @@ class ProductController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, Product $product)
-    {
-        //
+    {   
+        $validated = $request->validate($this->validations);
+        $product->update($validated);
+        $product->save();
     }
 
     /**
