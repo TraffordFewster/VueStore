@@ -1,3 +1,4 @@
 //Vue.component('test',require('./components/test.vue').default)
 Vue.component('theader',require('./components/theader.vue').default)
-//import tHeader from "./components/theader.vue";
+Vue.component('ttable',require('./components/ttable.vue').default)
+Vue.component('producttr', require('./components/product/producttr.vue').default)

@@ -1,7 +1,7 @@
 <template>
     <div>
         <ul class="nav nav-pills">
-            <headerItem v-for="link in links" :key="link" :link="link.link" :active="link.selected">{{link.title}}</headerItem>
+            <headerItem v-for="link in links" :key="link.title" :link="link.link" :active="link.selected">{{link.title}}</headerItem>
         </ul>
     </div>
 </template>
