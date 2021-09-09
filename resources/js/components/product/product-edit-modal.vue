@@ -67,7 +67,7 @@ export default {
             .then(data => {
                 console.log(data)
                 submitThis.$emit('update', {...submitThis.newItem});
-                setTimeout(()=> submitThis.close(), 0)
+                setTimeout( ()=> submitThis.close(), 0)
             })
             .catch((err) => {
                 submitThis.errors = err.response.data.errors;
