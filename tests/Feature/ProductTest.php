@@ -37,8 +37,6 @@ class ProductTest extends TestCase
     public function test_add()
     {
         $data = ['name' => 'Testing Minutes', 'price' => '10.80'];
-
-        $this->assertDatabaseMissing('products', $data);
         $response = $this->post("/product", $data);
         $this->assertDatabaseHas('products', $data);
 
@@ -59,30 +57,6 @@ class ProductTest extends TestCase
         $response = $this->put('/product/1', $dataEdited);
         $this->assertDatabaseHas('products', $dataEdited);
         $this->assertDatabaseMissing('products',$data);
-    }
-
-    public function test_view_valid()
-    {
-        $response = $this->get('/product/1');
-        $response->assertStatus(200);
-    }
-
-    public function test_view_nonExistant()
-    {
-        $response = $this->get('/product/10');
-        $response->assertStatus(404);
-    }
-
-    public function test_edit_valid()
-    {
-        $response = $this->get('/product/1/edit');
-        $response->assertStatus(200);
-    }
-
-    public function test_edit_nonExistant()
-    {
-        $response = $this->get('/product/10/edit');
-        $response->assertStatus(404);
     }
 
     public function test_index_200()

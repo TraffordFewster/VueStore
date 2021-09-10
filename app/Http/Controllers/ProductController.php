@@ -12,6 +12,7 @@ class ProductController extends Controller
         'name' => 'required|max:255|min:3',
         'price' => "required|regex:/^\d*(\.\d{1,2})?$/"
     ];
+
     /**
      * Display a listing of the resource.
      *
@@ -21,16 +22,6 @@ class ProductController extends Controller
     {
         $products = Product::all();
         return view('product.index',compact('products'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-
     }
 
     /**
@@ -48,28 +39,6 @@ class ProductController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Product $product)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -81,6 +50,7 @@ class ProductController extends Controller
         $validated = $request->validate($this->validations);
         $product->update($validated);
         $product->save();
+        return $product;
     }
 
     /**
@@ -92,5 +62,6 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product->delete();
+        return ['success'=>true];
     }
 }
