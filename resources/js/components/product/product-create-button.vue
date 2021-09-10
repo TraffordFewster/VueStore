@@ -1,7 +1,7 @@
 <template>
     <div>
         <button type="button" class="btn btn-success btn-sm mt-2 w-100" v-on:click="showModal = true">Create</button>
-        <tmodal :show="showModal" title="Create Product">
+        <tmodal :show="showModal" title="Create Product" @close="close">
             <form>
                 <div class="modal-body">
                     <errordisplay :errors="errors"></errordisplay>
@@ -59,8 +59,8 @@ export default {
             submitThis.checking = true;
             axios.post("/product", {name: submitThis.newItem.title, price: submitThis.newItem.price})
             .then(data => {
-                console.log(data.data.name)
                 setTimeout( ()=> submitThis.close(), 0)
+                submitThis.$emit("new",data.data)
             })
             .catch((err) => {
                 submitThis.errors = err.response.data.errors;
