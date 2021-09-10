@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\InvoiceController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,5 +20,9 @@ Route::get('/', function () {
 });
 
 Route::resource('/product', ProductController::class, [
+    'only' => ['index', 'store', 'update', 'destroy']
+]);
+
+Route::resource('/invoice', InvoiceController::class, [
     'only' => ['index', 'store', 'update', 'destroy']
 ]);

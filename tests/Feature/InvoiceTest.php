@@ -32,7 +32,7 @@ class InvoiceTest extends TestCase
         $data = ['billToName' => 'John Smith', 
         'billToAddr1' => '2 Court Square',
         'billToAddr2' => 'New York NY 12210',
-        'Due' => '10/09/2021' ];
+        'dueDate' => '10/09/2021' ];
         $response = $this->post("/invoice", $data);
         $this->assertDatabaseHas('invoices', $data);
     }
@@ -42,7 +42,7 @@ class InvoiceTest extends TestCase
         $data = ['billToName' => 'John Smith', 
         'billToAddr1' => '2 Court Square',
         'billToAddr2' => 'New York NY 12210',
-        'Due' => '10/09/2021' ];
+        'dueDate' => '10/09/2021' ];
         $response = $this->post("/invoice", $data);
         $this->assertDatabaseHas('invoices', ['id'=>1]);
         $response = $this->delete("/invoice/1");
@@ -54,11 +54,11 @@ class InvoiceTest extends TestCase
         $data = ['billToName' => 'John Smith', 
         'billToAddr1' => '2 Court Square',
         'billToAddr2' => 'New York NY 12210',
-        'Due' => '10/09/2021' ];
+        'dueDate' => '10/09/2021' ];
         $dataUpdated = ['billToName' => 'John Bob', 
         'billToAddr1' => '3 Court Square',
         'billToAddr2' => 'New York NY 14210',
-        'Due' => '10/09/2022' ];
+        'dueDate' => '10/09/2022' ];
         $response = $this->post("/invoice", $data);
         $this->assertDatabaseHas('invoices', $data);
         $response = $this->put("/invoice/1",$dataUpdated);
