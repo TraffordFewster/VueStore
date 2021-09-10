@@ -6,3 +6,5 @@ Vue.component('tmodal',require('./components/t-modal.vue').default)
 Vue.component('product-index', require('./components/product/product-index').default)
 Vue.component('product-tr', require('./components/product/product-tr.vue').default)
 Vue.component('product-create', require('./components/product/product-create-button').default)
+
+Vue.component('invoice-index', require('./components/invoice/invoice-index').default)
