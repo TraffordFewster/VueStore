@@ -2272,7 +2272,10 @@ __webpack_require__.r(__webpack_exports__);
         total += p.amount * p.product.price;
       }
 
-      return total;
+      return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
+        style: 'currency',
+        currency: 'GBP'
+      });
     }
   },
   methods: {}
@@ -40489,7 +40492,7 @@ var render = function() {
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "text-center align-middle" }, [
-      _vm._v("£" + _vm._s(_vm.totalValue))
+      _vm._v(_vm._s(_vm.totalValue))
     ]),
     _vm._v(" "),
     _c("td", { staticClass: "text-center align-middle actionsTd" }, [

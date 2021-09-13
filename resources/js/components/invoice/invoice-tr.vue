@@ -4,7 +4,7 @@
       <td class="text-center align-middle">{{data.created_at.substr(0, data.created_at.indexOf('T'))}}</td>
       <td class="text-center align-middle">{{data.dueDate}}</td>
       <td class="text-center align-middle">{{data.billToName}}</td>
-      <td class="text-center align-middle">£{{totalValue}}</td>
+      <td class="text-center align-middle">{{totalValue}}</td>
       <td class="text-center align-middle actionsTd">
             <button type="button" class="btn btn-primary" v-on:click="show = true">View</button>
             <button type="button" class="btn btn-warning" v-on:click="show = true">Edit</button>
@@ -30,7 +30,10 @@ export default {
                 let p = this.data.products[i];
                 total += p.amount * p.product.price;
             }
-            return total;
+            return   (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'GBP',
+            });
         }
     },
     methods: {

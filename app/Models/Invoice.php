@@ -14,4 +14,15 @@ class Invoice extends Model
         return $this->hasMany(InvoiceProducts::class);
     }
 
+    public function addProduct($id,$amount)
+    {
+        $item = InvoiceProducts::create([
+            'invoice_id' => $this->id,
+            'product_id' => $id,
+            'amount' => $amount
+        ]);
+        $item->save();
+        return $item;
+    }
+
 }
