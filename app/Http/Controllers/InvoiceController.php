@@ -8,6 +8,13 @@ use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
 {
+
+    private $validations = [
+        'billToName' => 'required|max:255|min:3',
+        'billToAddr1' => "required|max:255|min:3",
+        'billToAddr2' => "required|max:255|min:3",
+        'dueDate' => "required|date|after:today",
+    ];
     /**
      * Display a listing of the resource.
      *
@@ -74,7 +81,10 @@ class InvoiceController extends Controller
      */
     public function update(Request $request, Invoice $invoice)
     {
-        //
+        $validated = $request->validate($this->validations);
+        $invoice->update($validated);
+        $invoice->save();
+        return $invoice;
     }
 
     /**

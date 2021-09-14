@@ -2,12 +2,12 @@
   <tr>
         <td class="text-center align-middle">{{data.id}}</td>
         <td class="text-center align-middle">{{data.created_at.substr(0, data.created_at.indexOf('T'))}}</td>
-        <td class="text-center align-middle">{{data.dueDate}}</td>
+        <td class="text-center align-middle">{{dueDate}}</td>
         <td class="text-center align-middle">{{data.billToName}}</td>
         <td class="text-center align-middle">{{totalValue}}</td>
         <td class="text-center align-middle actionsTd">
             <viewButton :invoice="data"></viewButton>
-            <editButton :invoice="data" :allproducts="allproducts"></editButton>
+            <editButton @editted="edit" :invoice="data" :allproducts="allproducts"></editButton>
             <button type="button" class="btn btn-danger" v-on:click="show = true">Delete</button>
         </td>
   </tr>
@@ -32,13 +32,24 @@ export default {
                 let p = this.data.products[i];
                 total += p.amount * p.product.price;
             }
-            return   (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
+            return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'GBP',
             });
+        },
+        dueDate : function() {
+            if (typeof this.data.dueDate === 'string')
+            {
+                return this.data.dueDate;
+            } else {
+                return this.data.dueDate.toISOString().split('T')[0]
+            }
         }
     },
     methods: {
+        edit: function (data){
+            this.data = data;
+        }
     }
 }
 </script>
