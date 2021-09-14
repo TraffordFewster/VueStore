@@ -9,12 +9,12 @@
                 <h6 class="text-start">{{data.billToAddr1}}</h6>
                 <h6 class="text-start">{{data.billToAddr2}}</h6>
                 <br>
-                <table class="w-100">
+                <table class="w-100 table-primary">
                     <tr>
-                        <th>Name</th>
-                        <th>Price Per</th>
-                        <th>Amount</th>
-                        <th>Total Due</th>
+                        <th class="col">Name</th>
+                        <th class="col">Price Per</th>
+                        <th class="col">Amount</th>
+                        <th class="col">Total Due</th>
                     </tr>
                     <tr v-for="product in data.products" :key="product.id">
                         <td>{{product.product.name}}</td>

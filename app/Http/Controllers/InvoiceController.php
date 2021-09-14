@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Invoice;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class InvoiceController extends Controller
@@ -16,8 +17,9 @@ class InvoiceController extends Controller
     {
 
         $data = Invoice::all();
+        $products = Product::all();
         $data->load(['products','products.product']);
-        return view('invoice.index',compact("data"));
+        return view('invoice.index',compact("data","products"));
     }
 
     /**

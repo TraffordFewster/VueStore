@@ -7,7 +7,7 @@
         <td class="text-center align-middle">{{totalValue}}</td>
         <td class="text-center align-middle actionsTd">
             <viewButton :invoice="data"></viewButton>
-            <editButton :invoice="data"></editButton>
+            <editButton :invoice="data" :allproducts="allproducts"></editButton>
             <button type="button" class="btn btn-danger" v-on:click="show = true">Delete</button>
         </td>
   </tr>
@@ -18,7 +18,7 @@ import viewButton from './invoice-view-button.vue';
 import editButton from './invoice-edit-button.vue';
 export default {
     components: {viewButton,editButton},
-    props: ['invoice'],
+    props: ['invoice','allproducts'],
     data: function () {
         return {
             data : this.invoice,
