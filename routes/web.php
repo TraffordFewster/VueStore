@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\InvoiceProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,3 +27,6 @@ Route::resource('/product', ProductController::class, [
 Route::resource('/invoice', InvoiceController::class, [
     'only' => ['index', 'store', 'update', 'destroy']
 ]);
+
+
+Route::put('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'update']);

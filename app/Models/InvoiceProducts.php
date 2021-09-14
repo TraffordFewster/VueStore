@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class InvoiceProducts extends Model
 {
     use HasFactory;
-
+    public $fillable = ['product_id','invoice_id','amount'];
     /**
      * Get the product that owns the InvoiceProducts
      *

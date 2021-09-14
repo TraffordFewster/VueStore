@@ -2331,6 +2331,26 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       })["finally"](function () {
         ogThis.updateLocked = false;
       });
+    },
+    editProduct: function editProduct(invoiceProduct) {
+      this.updateLocked = true;
+      var ogThis = this;
+      axios.put("/invoice/".concat(this.data.id, "/products/").concat(invoiceProduct.id), {
+        amount: invoiceProduct.amount
+      }).then(function () {
+        ogThis.$emit('editted', ogThis.data);
+        ogThis.$toast.success("".concat(invoiceProduct.product.name, " amount has been updated!"));
+      })["catch"](function (err) {
+        console.log(err);
+        ogThis.errors[invoiceProduct.id + 'amount'] = true;
+
+        for (var property in err.response.data.errors) {
+          var msg = err.response.data.errors[property][0];
+          ogThis.$toast.error(msg);
+        }
+      })["finally"](function () {
+        ogThis.updateLocked = false;
+      });
     }
   },
   components: {
@@ -41130,9 +41150,16 @@ var render = function() {
                             }
                           ],
                           staticClass: "form-control",
+                          class: {
+                            "border border-danger":
+                              _vm.errors[product.id + "amount"]
+                          },
                           attrs: { type: "number", name: "amount" },
                           domProps: { value: product.amount },
                           on: {
+                            keydown: function($event) {
+                              _vm.errors[product.id + "amount"] = false
+                            },
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
@@ -41144,13 +41171,28 @@ var render = function() {
                       ]),
                       _vm._v(" "),
                       _c("td", { staticClass: "align-middle" }, [
-                        _c("button", { staticClass: "btn btn-success" }, [
-                          _c("i", { staticClass: "fas fa-save" })
-                        ]),
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-success",
+                            attrs: { disabled: _vm.updateLocked },
+                            on: {
+                              click: function($event) {
+                                return _vm.editProduct(product)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-save" })]
+                        ),
                         _vm._v(" "),
-                        _c("button", { staticClass: "btn btn-danger" }, [
-                          _c("i", { staticClass: "fas fa-trash" })
-                        ])
+                        _c(
+                          "button",
+                          {
+                            staticClass: "btn btn-danger",
+                            attrs: { disabled: _vm.updateLocked }
+                          },
+                          [_c("i", { staticClass: "fas fa-trash" })]
+                        )
                       ])
                     ])
                   }),
@@ -41199,13 +41241,23 @@ var render = function() {
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _c("button", { staticClass: "btn btn-success" }, [
-                        _c("i", { staticClass: "fas fa-plus" })
-                      ]),
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-success",
+                          attrs: { disabled: _vm.updateLocked }
+                        },
+                        [_c("i", { staticClass: "fas fa-plus" })]
+                      ),
                       _vm._v(" "),
-                      _c("button", { staticClass: "btn btn-danger" }, [
-                        _c("i", { staticClass: "fas fa-trash" })
-                      ])
+                      _c(
+                        "button",
+                        {
+                          staticClass: "btn btn-danger",
+                          attrs: { disabled: _vm.updateLocked }
+                        },
+                        [_c("i", { staticClass: "fas fa-trash" })]
+                      )
                     ])
                   ])
                 ])

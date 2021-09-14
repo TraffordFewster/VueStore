@@ -35,11 +35,11 @@
                                 {{product.product.name}}    
                             </td>
                             <td class="align-middle">
-                                <input class="form-control" type="number" name="amount" v-model="product.amount">
+                                <input class="form-control" :class="{'border border-danger':errors[product.id + 'amount']}" @keydown="errors[product.id + 'amount'] = false" type="number" name="amount" v-model="product.amount">
                             </td>
                             <td class="align-middle">
-                                <button class="btn btn-success"><i class="fas fa-save"></i></button>
-                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button @click="editProduct(product)" class="btn btn-success" :disabled="updateLocked"><i class="fas fa-save"></i></button>
+                                <button class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
@@ -52,8 +52,8 @@
                                 <input class="form-control" type="number" name="amount" v-model="newproduct.amount">
                             </td>
                             <td>
-                                <button class="btn btn-success"><i class="fas fa-plus"></i></button>
-                                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-success" :disabled="updateLocked"><i class="fas fa-plus"></i></button>
+                                <button class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tfoot>
@@ -119,6 +119,27 @@ export default {
                 ogThis.updateLocked = false;
             })
         
+        },
+        editProduct: function(invoiceProduct) {
+            this.updateLocked = true;
+            let ogThis = this;
+            axios.put(`/invoice/${this.data.id}/products/${invoiceProduct.id}`,{amount: invoiceProduct.amount})
+            .then(function() {
+                ogThis.$emit('editted', ogThis.data)
+                ogThis.$toast.success(`${invoiceProduct.product.name} amount has been updated!`)
+            })
+            .catch(function (err) {
+                console.log(err);
+                ogThis.errors[invoiceProduct.id+'amount'] = true;
+                for (const property in err.response.data.errors)
+                {
+                    let msg = err.response.data.errors[property][0]
+                    ogThis.$toast.error(msg)
+                }
+            })
+            .finally(function() {
+                ogThis.updateLocked = false;
+            })
         }
     },
     components: {
