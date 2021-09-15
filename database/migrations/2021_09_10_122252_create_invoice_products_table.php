@@ -15,8 +15,8 @@ class CreateInvoiceProductsTable extends Migration
     {
         Schema::create('invoice_products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('invoice_id')->references('id')->on('invoices');
-            $table->foreignId('product_id')->references('id')->on('products');
+            $table->foreignId('invoice_id')->references('id')->on('invoices')->onDelete('cascade');
+            $table->foreignId('product_id')->references('id')->on('products')->onDelete('cascade');
             $table->integer('amount');
             $table->timestamps();
         });

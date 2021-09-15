@@ -8,7 +8,7 @@
         <td class="text-center align-middle actionsTd">
             <viewButton :invoice="data" :allproducts="allproducts"></viewButton>
             <editButton @editted="edit" :invoice="data" :allproducts="allproducts"></editButton>
-            <button type="button" class="btn btn-danger" v-on:click="show = true">Delete</button>
+            <deleteButton @remove="remove" :invoice="data"></deleteButton>
         </td>
   </tr>
 </template>
@@ -16,8 +16,9 @@
 <script>
 import viewButton from './invoice-view-button.vue';
 import editButton from './invoice-edit-button.vue';
+import deleteButton from './invoice-delete-button.vue';
 export default {
-    components: {viewButton,editButton},
+    components: {viewButton,editButton,deleteButton},
     props: ['invoice','allproducts'],
     data: function () {
         return {
@@ -57,6 +58,9 @@ export default {
         },
         edit: function (data){
             this.data = data;
+        },
+        remove: function() {
+            this.$emit('remove',this.invoice.id)
         }
     }
 }

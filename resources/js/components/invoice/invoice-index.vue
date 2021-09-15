@@ -1,6 +1,6 @@
 <template>
   <ttable class="mt-2" :header='["#", "Created", "Due", "Payee","Value","Actions"]'>
-      <invoicetr v-for="invoice in data" :key="invoice.id" :invoice="invoice" :allproducts="allproducts"></invoicetr>
+      <invoicetr @remove="remove" v-for="invoice in data" :key="invoice.id" :invoice="invoice" :allproducts="allproducts"></invoicetr>
   </ttable>
 </template>
 
@@ -14,6 +14,20 @@ export default {
         }
     },
     components: {invoicetr},
+    methods: {
+        remove: function(id)
+        {
+            for (let i in this.data)
+            {
+                console.log(i)
+                if (this.data[i].id == id)
+                {
+                    this.data.splice(i,1);
+                    break;
+                }
+            }
+        }
+    }
 }
 </script>
 
