@@ -2,24 +2,7 @@
   <span>
       <button type="button" class="btn btn-warning" v-on:click="showModal = true">Edit</button>
       <tmodal :show="showModal" :title="'Edit Invoice #'+invoice.id" @close="close" :large="true">
-            <form v-on:submit.prevent="">
-                <div class="modal-body text-start">
-                    <div class="mb-3">
-                        <label :for="data.id + 'name'" class="form-label">Bill To</label>
-                        <input :id="data.id + 'name'" type="text" class="form-control" :class="{'border border-danger':errors['billToName']}" @keydown="errors['billToName'] = false" v-model="data.billToName">
-                    </div>
-                    <div class="mb-3">
-                        <label :for="data.id + 'addr'" class="form-label">Address</label>
-                        <input :id="data.id + 'addr'" type="text" class="form-control mb-1" :class="{'border border-danger':errors['billToAddr1']}" @keydown="errors['billToAddr1'] = false" v-model="data.billToAddr1">
-                        <input :id="data.id + 'addr2'" type="text" class="form-control" :class="{'border border-danger':errors['billToAddr2']}" @keydown="errors['billToAddr2'] = false" v-model="data.billToAddr2">
-                    </div>
-                    <div class="mb-3">
-                        <label :for="data.id + 'addr'" class="form-label">Due Date</label>
-                        <datepicker :input-class="{'form-control':true, 'border border-danger':errors['dueDate']}" :disabled-dates="{days:[0,6]}" v-model="data.dueDate" @selected="errors['dueDate'] = false" style="color:black"></datepicker>
-                    </div>
-                    <button v-on:click="edit" :disabled="updateLocked" class="btn btn-success w-100">Update</button>
-                </div>
-            </form>
+            <invoiceBasicsForm @submit='edit' :updateLocked="updateLocked" :errors="errors" :model="data"></invoiceBasicsForm>
             <div class="modal-footer">
                 <table class="table" style="max-width: 100%;">
                     <thead>
@@ -44,18 +27,8 @@
                         </tr>
                     </tbody>
                     <tfoot>
-                        <tr>
-                            <td>
-                                <Multiselect @selected='productCreateSelect' class="w-100" :options="allproducts"></Multiselect>
-                            </td>
-                            <td>
-                                <input class="form-control" type="number" name="amount" v-model="newproduct.amount">
-                            </td>
-                            <td>
-                                <button @click="createProduct" class="btn btn-success" :disabled="updateLocked"><i class="fas fa-plus"></i></button>
-                                <button class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
-                            </td>
-                        </tr>
+                        <invoiceNewProduct @Create="createProduct" :v-model="newproduct" :updateLocked="updateLocked" :allproducts="allproducts">
+                        </invoiceNewProduct>
                     </tfoot>
                 </table>
             </div>
@@ -64,8 +37,8 @@
 </template>
 
 <script>
-import Datepicker from 'vuejs-datepicker';
-import Multiselect from 'vue-simple-search-dropdown';
+import invoiceNewProduct from './invoice-product-new.vue';
+import invoiceBasicsForm from './invoice-basics-form.vue';
 export default {
     props: ['invoice','allproducts'],
     data: function () {
@@ -134,7 +107,7 @@ export default {
             axios.put(`/invoice/${this.data.id}/products/${invoiceProduct.id}`,{amount: invoiceProduct.amount})
             .then(function() {
                 ogThis.$emit('editted', ogThis.data)
-                ogThis.$toast.success(`${getProduct(invoiceProduct.product_id).name} amount has been updated!`)
+                ogThis.$toast.success(`${ogThis.getProduct(invoiceProduct.product_id).name} amount has been updated!`)
             })
             .catch(function (err) {
                 console.log(err);
@@ -144,6 +117,9 @@ export default {
                     let msg = err.response.data.errors[property][0]
                     ogThis.$toast.error(msg)
                 }
+            }).catch(function(err) {
+                console.log(err)
+                ogThis.$toast.error('Oops! Something went wrong, please check console!')
             })
             .finally(function() {
                 ogThis.updateLocked = false;
@@ -172,10 +148,6 @@ export default {
                 ogThis.updateLocked = false;
             })
         },
-        productCreateSelect: function(selected) 
-        {
-            this.newproduct.productid = selected.id;
-        },
         createProduct: function() 
         {
             let ogThis = this
@@ -183,8 +155,8 @@ export default {
                 ogThis.$toast.error('Select a product!')
                 return;
             }
-            if (!this.newproduct.amount){
-                ogThis.$toast.error('Please enter an amount!')
+            if (!this.newproduct.amount || this.newproduct.amount <= 0){
+                ogThis.$toast.error('Please enter an amount above 0!')
                 return;
             }
             ogThis.updateLocked = false;
@@ -205,8 +177,8 @@ export default {
         }
     },
     components: {
-        Datepicker,
-        Multiselect
+        invoiceBasicsForm,
+        invoiceNewProduct
     }
 }
 </script>
