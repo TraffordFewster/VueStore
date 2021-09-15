@@ -1,6 +1,6 @@
 <template>
     <div>
-        <invoiceCreate :allproducts='allproducts'></invoiceCreate>
+        <invoiceCreate @created='newInvoice' :allproducts='allproducts'></invoiceCreate>
         <ttable class="mt-2" :header='["#", "Created", "Due", "Payee","Value","Actions"]'>
             <invoicetr @remove="remove" v-for="invoice in data" :key="invoice.id" :invoice="invoice" :allproducts="allproducts"></invoicetr>
         </ttable>
@@ -30,6 +30,10 @@ export default {
                     break;
                 }
             }
+        },
+        newInvoice: function(data)
+        {
+            this.data.push(data);
         }
     }
 }

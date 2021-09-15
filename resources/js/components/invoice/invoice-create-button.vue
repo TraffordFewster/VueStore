@@ -99,6 +99,7 @@ export default {
                 .then((response) => {
                     ogThis.showModal = false;
                     ogThis.$toast.success('Invoice added!')
+                    ogThis.$emit('created',response.data)
                 })
                 .catch((err) => {
                     console.log(err);

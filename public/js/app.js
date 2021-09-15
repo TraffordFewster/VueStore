@@ -2397,6 +2397,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }).then(function (response) {
         ogThis.showModal = false;
         ogThis.$toast.success('Invoice added!');
+        ogThis.$emit('created', response.data);
       })["catch"](function (err) {
         console.log(err);
 
@@ -2738,6 +2739,9 @@ __webpack_require__.r(__webpack_exports__);
           break;
         }
       }
+    },
+    newInvoice: function newInvoice(data) {
+      this.data.push(data);
     }
   }
 });
@@ -42442,7 +42446,10 @@ var render = function() {
   return _c(
     "div",
     [
-      _c("invoiceCreate", { attrs: { allproducts: _vm.allproducts } }),
+      _c("invoiceCreate", {
+        attrs: { allproducts: _vm.allproducts },
+        on: { created: _vm.newInvoice }
+      }),
       _vm._v(" "),
       _c(
         "ttable",
