@@ -30,3 +30,5 @@ Route::resource('/invoice', InvoiceController::class, [
 
 
 Route::put('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'update']);
+Route::delete('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'destroy']);
+Route::post('/invoice/{invoice}/products', [InvoiceProductController::class,'store']);

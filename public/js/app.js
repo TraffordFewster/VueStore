@@ -2304,6 +2304,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     }
   },
   methods: {
+    getProduct: function getProduct(id) {
+      for (var p in this.allproducts) {
+        if (this.allproducts[p].id == id) {
+          return this.allproducts[p];
+        }
+      }
+    },
     close: function close() {
       this.data = _objectSpread({}, this.invoice);
       this.showModal = false;
@@ -2339,7 +2346,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         amount: invoiceProduct.amount
       }).then(function () {
         ogThis.$emit('editted', ogThis.data);
-        ogThis.$toast.success("".concat(invoiceProduct.product.name, " amount has been updated!"));
+        ogThis.$toast.success("".concat(getProduct(invoiceProduct.product_id).name, " amount has been updated!"));
       })["catch"](function (err) {
         console.log(err);
         ogThis.errors[invoiceProduct.id + 'amount'] = true;
@@ -2348,6 +2355,60 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var msg = err.response.data.errors[property][0];
           ogThis.$toast.error(msg);
         }
+      })["finally"](function () {
+        ogThis.updateLocked = false;
+      });
+    },
+    removeProduct: function removeProduct(invoiceProduct) {
+      this.updateLocked = true;
+      var ogThis = this;
+      axios["delete"]("/invoice/".concat(this.data.id, "/products/").concat(invoiceProduct.id)).then(function () {
+        for (var product in ogThis.data.products) {
+          var p = ogThis.data.products[product].id;
+
+          if (p == invoiceProduct.id) {
+            ogThis.data.products.splice(product, 1);
+            break;
+          }
+        }
+
+        ogThis.$emit('editted', ogThis.data);
+        ogThis.$toast.success("".concat(ogThis.getProduct(invoiceProduct.product_id).name, " has been removed from the invoice!"));
+      })["catch"](function (err) {
+        console.log(err);
+        ogThis.$toast.error('Oops! Something went wrong, please check console!');
+      })["finally"](function () {
+        ogThis.updateLocked = false;
+      });
+    },
+    productCreateSelect: function productCreateSelect(selected) {
+      this.newproduct.productid = selected.id;
+    },
+    createProduct: function createProduct() {
+      var ogThis = this;
+
+      if (!this.newproduct.productid) {
+        ogThis.$toast.error('Select a product!');
+        return;
+      }
+
+      if (!this.newproduct.amount) {
+        ogThis.$toast.error('Please enter an amount!');
+        return;
+      }
+
+      ogThis.updateLocked = false;
+      axios.post("/invoice/".concat(this.data.id, "/products"), {
+        product_id: this.newproduct.productid,
+        amount: this.newproduct.amount
+      }).then(function (response) {
+        console.log(response.data);
+        ogThis.data.products.push(response.data);
+        ogThis.$emit('editted', ogThis.data);
+        ogThis.$toast.success("Success");
+      })["catch"](function (err) {
+        console.log(err);
+        ogThis.$toast.error("Oops something went wrong! please check the console.");
       })["finally"](function () {
         ogThis.updateLocked = false;
       });
@@ -2441,7 +2502,7 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i = 0; i < this.data.products.length; i++) {
         var p = this.data.products[i];
-        total += p.amount * p.product.price;
+        total += p.amount * this.getProduct(p.product_id).price;
       }
 
       return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
@@ -2458,6 +2519,13 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    getProduct: function getProduct(id) {
+      for (var p in this.allproducts) {
+        if (this.allproducts[p].id == id) {
+          return this.allproducts[p];
+        }
+      }
+    },
     edit: function edit(data) {
       this.data = data;
     }
@@ -2521,7 +2589,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['invoice'],
+  props: ['invoice', 'allproducts'],
   data: function data() {
     return {
       data: this.invoice,
@@ -2529,6 +2597,13 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
+    getProduct: function getProduct(id) {
+      for (var p in this.allproducts) {
+        if (this.allproducts[p].id == id) {
+          return this.allproducts[p];
+        }
+      }
+    },
     close: function close() {
       this.showModal = false;
     }
@@ -2539,7 +2614,7 @@ __webpack_require__.r(__webpack_exports__);
 
       for (var i = 0; i < this.data.products.length; i++) {
         var p = this.data.products[i];
-        total += p.amount * p.product.price;
+        total += p.amount * this.getProduct(p.product_id).price;
       }
 
       return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
@@ -41134,7 +41209,7 @@ var render = function() {
                       _c("td", { staticClass: "align-middle" }, [
                         _vm._v(
                           "\n                              " +
-                            _vm._s(product.product.name) +
+                            _vm._s(_vm.getProduct(product.product_id).name) +
                             "    \n                          "
                         )
                       ]),
@@ -41189,7 +41264,12 @@ var render = function() {
                           "button",
                           {
                             staticClass: "btn btn-danger",
-                            attrs: { disabled: _vm.updateLocked }
+                            attrs: { disabled: _vm.updateLocked },
+                            on: {
+                              click: function($event) {
+                                return _vm.removeProduct(product)
+                              }
+                            }
                           },
                           [_c("i", { staticClass: "fas fa-trash" })]
                         )
@@ -41206,7 +41286,8 @@ var render = function() {
                       [
                         _c("Multiselect", {
                           staticClass: "w-100",
-                          attrs: { options: _vm.allproducts }
+                          attrs: { options: _vm.allproducts },
+                          on: { selected: _vm.productCreateSelect }
                         })
                       ],
                       1
@@ -41245,7 +41326,8 @@ var render = function() {
                         "button",
                         {
                           staticClass: "btn btn-success",
-                          attrs: { disabled: _vm.updateLocked }
+                          attrs: { disabled: _vm.updateLocked },
+                          on: { click: _vm.createProduct }
                         },
                         [_c("i", { staticClass: "fas fa-plus" })]
                       ),
@@ -41358,7 +41440,9 @@ var render = function() {
       "td",
       { staticClass: "text-center align-middle actionsTd" },
       [
-        _c("viewButton", { attrs: { invoice: _vm.data } }),
+        _c("viewButton", {
+          attrs: { invoice: _vm.data, allproducts: _vm.allproducts }
+        }),
         _vm._v(" "),
         _c("editButton", {
           attrs: { invoice: _vm.data, allproducts: _vm.allproducts },
@@ -41465,9 +41549,15 @@ var render = function() {
                 _vm._v(" "),
                 _vm._l(_vm.data.products, function(product) {
                   return _c("tr", { key: product.id }, [
-                    _c("td", [_vm._v(_vm._s(product.product.name))]),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.getProduct(product.product_id).name))
+                    ]),
                     _vm._v(" "),
-                    _c("td", [_vm._v("£" + _vm._s(product.product.price))]),
+                    _c("td", [
+                      _vm._v(
+                        "£" + _vm._s(_vm.getProduct(product.product_id).price)
+                      )
+                    ]),
                     _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(product.amount))]),
                     _vm._v(" "),
@@ -41476,7 +41566,9 @@ var render = function() {
                         _vm._s(
                           (
                             Math.round(
-                              product.product.price * product.amount * 100
+                              _vm.getProduct(product.product_id).price *
+                                product.amount *
+                                100
                             ) * 0.01
                           ).toLocaleString("en-US", {
                             style: "currency",

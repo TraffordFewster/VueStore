@@ -6,7 +6,7 @@
         <td class="text-center align-middle">{{data.billToName}}</td>
         <td class="text-center align-middle">{{totalValue}}</td>
         <td class="text-center align-middle actionsTd">
-            <viewButton :invoice="data"></viewButton>
+            <viewButton :invoice="data" :allproducts="allproducts"></viewButton>
             <editButton @editted="edit" :invoice="data" :allproducts="allproducts"></editButton>
             <button type="button" class="btn btn-danger" v-on:click="show = true">Delete</button>
         </td>
@@ -30,7 +30,7 @@ export default {
             for (let i = 0; i < this.data.products.length; i++)
             {
                 let p = this.data.products[i];
-                total += p.amount * p.product.price;
+                total += p.amount * this.getProduct(p.product_id).price;
             }
             return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
                 style: 'currency',
@@ -47,6 +47,14 @@ export default {
         }
     },
     methods: {
+        getProduct: function(id){
+            for (let p in this.allproducts){
+                if (this.allproducts[p].id == id)
+                {
+                    return this.allproducts[p];
+                }
+            }
+        },
         edit: function (data){
             this.data = data;
         }

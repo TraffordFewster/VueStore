@@ -32,27 +32,27 @@
                     <tbody>
                         <tr v-for="product in data.products" :key="product.id">
                             <td class="align-middle">
-                                {{product.product.name}}    
+                                {{getProduct(product.product_id).name}}    
                             </td>
                             <td class="align-middle">
                                 <input class="form-control" :class="{'border border-danger':errors[product.id + 'amount']}" @keydown="errors[product.id + 'amount'] = false" type="number" name="amount" v-model="product.amount">
                             </td>
                             <td class="align-middle">
                                 <button @click="editProduct(product)" class="btn btn-success" :disabled="updateLocked"><i class="fas fa-save"></i></button>
-                                <button class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
+                                <button @click="removeProduct(product)" class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
                     </tbody>
                     <tfoot>
                         <tr>
                             <td>
-                                <Multiselect class="w-100" :options="allproducts"></Multiselect>
+                                <Multiselect @selected='productCreateSelect' class="w-100" :options="allproducts"></Multiselect>
                             </td>
                             <td>
                                 <input class="form-control" type="number" name="amount" v-model="newproduct.amount">
                             </td>
                             <td>
-                                <button class="btn btn-success" :disabled="updateLocked"><i class="fas fa-plus"></i></button>
+                                <button @click="createProduct" class="btn btn-success" :disabled="updateLocked"><i class="fas fa-plus"></i></button>
                                 <button class="btn btn-danger" :disabled="updateLocked"><i class="fas fa-trash"></i></button>
                             </td>
                         </tr>
@@ -88,6 +88,14 @@ export default {
         }
     },
     methods: {
+        getProduct: function(id){
+            for (let p in this.allproducts){
+                if (this.allproducts[p].id == id)
+                {
+                    return this.allproducts[p];
+                }
+            }
+        },
         close: function() {
             this.data = {...this.invoice}
             this.showModal = false;
@@ -126,7 +134,7 @@ export default {
             axios.put(`/invoice/${this.data.id}/products/${invoiceProduct.id}`,{amount: invoiceProduct.amount})
             .then(function() {
                 ogThis.$emit('editted', ogThis.data)
-                ogThis.$toast.success(`${invoiceProduct.product.name} amount has been updated!`)
+                ogThis.$toast.success(`${getProduct(invoiceProduct.product_id).name} amount has been updated!`)
             })
             .catch(function (err) {
                 console.log(err);
@@ -138,6 +146,60 @@ export default {
                 }
             })
             .finally(function() {
+                ogThis.updateLocked = false;
+            })
+        },
+        removeProduct: function(invoiceProduct) {
+            this.updateLocked = true;
+            let ogThis = this;
+            axios.delete(`/invoice/${this.data.id}/products/${invoiceProduct.id}`)
+            .then(function() {
+                for (let product in ogThis.data.products)
+                {
+                    let p = ogThis.data.products[product].id
+                    if (p == invoiceProduct.id)
+                    {
+                        ogThis.data.products.splice(product,1)
+                        break
+                    }
+                }
+                ogThis.$emit('editted', ogThis.data)
+                ogThis.$toast.success(`${ogThis.getProduct(invoiceProduct.product_id).name} has been removed from the invoice!`);           
+            }).catch(function(err) {
+                console.log(err)
+                ogThis.$toast.error('Oops! Something went wrong, please check console!')
+            }).finally(function() {
+                ogThis.updateLocked = false;
+            })
+        },
+        productCreateSelect: function(selected) 
+        {
+            this.newproduct.productid = selected.id;
+        },
+        createProduct: function() 
+        {
+            let ogThis = this
+            if (!this.newproduct.productid){
+                ogThis.$toast.error('Select a product!')
+                return;
+            }
+            if (!this.newproduct.amount){
+                ogThis.$toast.error('Please enter an amount!')
+                return;
+            }
+            ogThis.updateLocked = false;
+            axios.post(`/invoice/${this.data.id}/products`, {product_id: this.newproduct.productid, amount: this.newproduct.amount})
+            .then(function(response){
+                console.log(response.data)
+                ogThis.data.products.push(response.data)
+                ogThis.$emit('editted', ogThis.data)
+                ogThis.$toast.success("Success")
+            })
+            .catch(function(err){
+                console.log(err)
+                ogThis.$toast.error("Oops something went wrong! please check the console.")
+            })
+            .finally(function(){
                 ogThis.updateLocked = false;
             })
         }

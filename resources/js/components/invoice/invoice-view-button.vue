@@ -17,10 +17,10 @@
                         <th class="col">Total Due</th>
                     </tr>
                     <tr v-for="product in data.products" :key="product.id">
-                        <td>{{product.product.name}}</td>
-                        <td>£{{product.product.price}}</td>
+                        <td>{{getProduct(product.product_id).name}}</td>
+                        <td>£{{getProduct(product.product_id).price}}</td>
                         <td>{{product.amount}}</td>
-                        <td>{{(Math.round((product.product.price * product.amount) * 100) * 0.01).toLocaleString('en-US', { style: 'currency', currency: 'GBP', })}}</td>
+                        <td>{{(Math.round((getProduct(product.product_id).price * product.amount) * 100) * 0.01).toLocaleString('en-US', { style: 'currency', currency: 'GBP', })}}</td>
                     </tr>
                     <br>
                     <h6>Total: {{totalValue}}</h6>
@@ -43,7 +43,7 @@
 
 <script>
 export default {
-    props: ['invoice'],
+    props: ['invoice','allproducts'],
     data: function () {
         return {
             data: this.invoice,
@@ -51,6 +51,14 @@ export default {
         }
     },
     methods: {
+        getProduct: function(id){
+            for (let p in this.allproducts){
+                if (this.allproducts[p].id == id)
+                {
+                    return this.allproducts[p];
+                }
+            }
+        },
         close: function() {
             this.showModal = false;
         }
@@ -61,13 +69,13 @@ export default {
             for (let i = 0; i < this.data.products.length; i++)
             {
                 let p = this.data.products[i];
-                total += p.amount * p.product.price;
+                total += p.amount * this.getProduct(p.product_id).price;
             }
-            return   (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
+            return (Math.round(total * 100) * 0.01).toLocaleString('en-US', {
                 style: 'currency',
                 currency: 'GBP',
             });
-        }
+        },
     },
 }
 </script>

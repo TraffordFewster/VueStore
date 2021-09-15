@@ -22,4 +22,26 @@ class InvoiceProductController extends Controller
         $invoiceProduct->save();
         return $invoiceProduct;
     }
+
+    public function destroy(Request $request, Invoice $invoice, InvoiceProducts $invoiceProduct)
+    {
+        $invoiceProduct->delete();
+        return ['success' => true];
+    }
+
+    public function store(Request $request, Invoice $invoice)
+    {
+        $validated = $request->validate([
+            'amount' => 'required|numeric|min:1',
+            'product_id' => 'required|numeric']);
+
+        $p = Product::where('id', '=', $validated['product_id'])->first();
+        if ($p === null) {
+            abort(422);
+        };
+        return $invoice->addProduct(
+            $validated['product_id'],
+            $validated['amount'],
+        );
+    }
 }

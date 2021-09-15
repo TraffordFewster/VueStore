@@ -25,19 +25,10 @@ class InvoiceController extends Controller
 
         $data = Invoice::all();
         $products = Product::all();
-        $data->load(['products','products.product']);
+        $data->load(['products']);
         return view('invoice.index',compact("data","products"));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -46,17 +37,6 @@ class InvoiceController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Invoice $invoice)
     {
         //
     }
