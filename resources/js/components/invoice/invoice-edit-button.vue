@@ -2,7 +2,12 @@
   <span>
       <button type="button" class="btn btn-warning" v-on:click="showModal = true">Edit</button>
       <tmodal :show="showModal" :title="'Edit Invoice #'+invoice.id" @close="close" :large="true">
-            <invoiceBasicsForm @submit='edit' :updateLocked="updateLocked" :errors="errors" :model="data"></invoiceBasicsForm>
+            <form v-on:submit.prevent="">
+                <div class="modal-body text-start">
+                    <invoiceBasicsForm :updateLocked="updateLocked" :errors="errors" :model="data"></invoiceBasicsForm>
+                    <button v-on:click="edit" :disabled="updateLocked" class="btn btn-success w-100">Update</button>
+                </div>
+            </form>
             <div class="modal-footer">
                 <table class="table" style="max-width: 100%;">
                     <thead>

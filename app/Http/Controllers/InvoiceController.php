@@ -38,18 +38,31 @@ class InvoiceController extends Controller
      */
     public function store(Request $request)
     {
-        //
-    }
+        $validated = $request->validate([
+        'billToName' => 'required|max:255|min:3',
+        'billToAddr1' => "required|max:255|min:3",
+        'billToAddr2' => "required|max:255|min:3",
+        'dueDate' => "required|date|after:today",
+        'products' => "required|json",
+        ]);
+        $products = json_decode($validated['products']);
+        
+        foreach ($products as $key => $value) { // This should be done with a validator but this project is mainly for Vue not Laravel.
+            if ($value->amount <= 0) {
+                abort(422);
+            };
+            if (! Product::find($value->productid)) {
+                abort(422);
+            };
+        }
+        array_splice($validated,4,1);
+        $invoice = Invoice::create($validated);
+        $invoice->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Invoice  $invoice
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Invoice $invoice)
-    {
-        //
+        foreach ($products as $key => $value) { // This should be done with a validator but this project is mainly for Vue not Laravel.
+            $invoice->addProduct($value->productid,$value->amount);
+        }
+        return $invoice->load('products');
     }
 
     /**
