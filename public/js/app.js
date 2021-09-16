@@ -3046,7 +3046,9 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       data: this.invoice,
-      showModal: false
+      showModal: false,
+      sendToEmail: "",
+      lockEmail: false
     };
   },
   methods: {
@@ -3059,6 +3061,36 @@ __webpack_require__.r(__webpack_exports__);
     },
     close: function close() {
       this.showModal = false;
+      this.sendToEmail = "";
+    },
+    sendEmail: function sendEmail() {
+      this.lockEmail = true;
+
+      var _this = this;
+
+      _this.$toast.warning("Generating the invoice!");
+
+      axios.post("/invoice/".concat(this.invoice.id, "/email"), {
+        'email': this.sendToEmail
+      }).then(function (response) {
+        _this.$toast.success("Invoice sent!");
+      })["catch"](function (err) {
+        console.log(err);
+
+        if (!err.response.data.errors) {
+          _this.$toast.error('Oops! An unknown error has occured!');
+        }
+
+        _this.errors = err.response.data.errors || {};
+
+        for (var property in _this.errors) {
+          var msg = _this.errors[property][0];
+
+          _this.$toast.error(msg);
+        }
+      })["finally"](function () {
+        _this.lockEmail = false;
+      });
     }
   },
   computed: {
@@ -43140,11 +43172,28 @@ var render = function() {
                 ),
                 _vm._v(" "),
                 _c("input", {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.sendToEmail,
+                      expression: "sendToEmail"
+                    }
+                  ],
                   staticClass: "form-control",
                   attrs: {
                     type: "email",
                     id: _vm.data.id + "emailSendInput",
                     name: "email"
+                  },
+                  domProps: { value: _vm.sendToEmail },
+                  on: {
+                    input: function($event) {
+                      if ($event.target.composing) {
+                        return
+                      }
+                      _vm.sendToEmail = $event.target.value
+                    }
                   }
                 }),
                 _vm._v(" "),
@@ -43157,7 +43206,13 @@ var render = function() {
                 "button",
                 {
                   staticClass: "btn btn-success w-100",
-                  attrs: { type: "submit" }
+                  attrs: { disabled: _vm.lockEmail },
+                  on: {
+                    click: function($event) {
+                      $event.preventDefault()
+                      return _vm.sendEmail.apply(null, arguments)
+                    }
+                  }
                 },
                 [_vm._v("Send")]
               )

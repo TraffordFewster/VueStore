@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Invoice;
 use App\Models\Product;
+use App\Mail\InvoiceMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
 
 class InvoiceController extends Controller
 {
@@ -78,6 +80,13 @@ class InvoiceController extends Controller
         $invoice->update($validated);
         $invoice->save();
         return $invoice;
+    }
+
+    public function email(Request $request, Invoice $invoice)
+    {
+        $email = $request->validate(['email' => 'required|email'])['email'];
+        $mail = Mail::to($email)->send(new InvoiceMail($invoice));
+        return ['success' => true];
     }
 
     /**

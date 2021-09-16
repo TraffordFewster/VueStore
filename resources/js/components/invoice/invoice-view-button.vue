@@ -31,10 +31,10 @@
                 <form class="w-100">
                     <div class="mb-3">
                         <label :for="data.id + 'emailSendInput'" class="form-label">Email address</label>
-                        <input type="email" class="form-control" :id="data.id + 'emailSendInput'" name="email">
+                        <input v-model="sendToEmail" type="email" class="form-control" :id="data.id + 'emailSendInput'" name="email">
                         <div class="form-text">Who to send the invoice to.</div>
                     </div>
-                    <button type="submit" class="btn btn-success w-100">Send</button>
+                    <button :disabled="lockEmail" @click.prevent="sendEmail" class="btn btn-success w-100">Send</button>
                 </form>
             </div>
         </tmodal>
@@ -48,6 +48,8 @@ export default {
         return {
             data: this.invoice,
             showModal: false,
+            sendToEmail: "",
+            lockEmail: false,
         }
     },
     methods: {
@@ -61,6 +63,33 @@ export default {
         },
         close: function() {
             this.showModal = false;
+            this.sendToEmail = "";
+        },
+        sendEmail: function() 
+        {
+            this.lockEmail = true;
+            let _this = this;
+            _this.$toast.warning(`Generating the invoice!`)
+            axios.post(`/invoice/${this.invoice.id}/email`, {'email' : this.sendToEmail})
+            .then(function(response){
+                _this.$toast.success("Invoice sent!")
+            })
+            .catch(function(err){
+                console.log(err);
+                if (!err.response.data.errors){
+                    _this.$toast.error('Oops! An unknown error has occured!')
+                }
+                _this.errors = err.response.data.errors || {};
+                for (const property in _this.errors)
+                {
+                    let msg = _this.errors[property][0]
+                    _this.$toast.error(msg)
+                }
+            })
+            .finally(function(){
+                _this.lockEmail = false;
+            })
+
         }
     },
     computed: {

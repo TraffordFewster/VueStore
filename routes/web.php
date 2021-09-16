@@ -28,6 +28,8 @@ Route::resource('/invoice', InvoiceController::class, [
     'only' => ['index', 'store', 'update', 'destroy']
 ]);
 
+Route::post('/invoice/{invoice}/email', [InvoiceController::class, 'email']);
+
 
 Route::put('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'update']);
 Route::delete('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'destroy']);
