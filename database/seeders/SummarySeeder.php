@@ -15,23 +15,6 @@ class SummarySeeder extends Seeder
     public function run()
     {
 
-        $dummyData = [
-            "invoices" => [
-                ["billToName" => "John Smith",
-                "billToAddr1" => "Some Street",
-                "billToAddr2" => "Some City",
-                "dueDate" => "2022-01-01",
-                "products" => [
-                    ["id" => 1, "amount" => 20],
-                    ["id" => 2, "amount" => 40],
-                    ["id" => 3, "amount" => 20],
-                    ]
-                ]
-            ]
-        ];
-
-        $summary = Summary::create(
-            ['data' => json_encode($dummyData)]
-        );
+        \Artisan::call('summary:gen');
     }
 }

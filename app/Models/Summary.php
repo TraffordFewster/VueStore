@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Summary extends Model
 {
+    public $fillable = ["data"];
     use HasFactory;
 }
