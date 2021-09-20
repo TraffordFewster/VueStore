@@ -17,7 +17,6 @@ export default {
     methods: {
         getData: function(summary) // Should have done this in other places aswell.
         {
-            console.log(summary)
             if (!summary.data)
             {
                 let _this = this;

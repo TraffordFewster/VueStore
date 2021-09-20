@@ -3558,8 +3558,6 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     getData: function getData(summary) // Should have done this in other places aswell.
     {
-      console.log(summary);
-
       if (!summary.data) {
         var _this = this;
 
@@ -3635,6 +3633,65 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -3646,7 +3703,58 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  props: ['data']
+  props: ['data'],
+  data: function data() {
+    return {
+      selectedInvoice: {},
+      showModal: false
+    };
+  },
+  methods: {
+    currencyFormat: function currencyFormat(amount) {
+      return amount.toLocaleString('en-GB', {
+        style: 'currency',
+        currency: 'GBP'
+      });
+    },
+    selectInvoiceView: function selectInvoiceView(invoice) {
+      this.selectedInvoice = invoice;
+      this.showModal = true;
+    }
+  },
+  computed: {
+    productTotals: function productTotals() {
+      var returnData = {};
+
+      for (var i = 0; i < this.data.length; i++) {
+        var invoice = this.data[i];
+
+        for (var j = 0; j < invoice.products.length; j++) {
+          var product = invoice.products[j];
+          var id = product.product.id;
+          if (!returnData[id]) returnData[id] = _objectSpread({
+            amount: 0
+          }, product.product);
+          returnData[product.product.id].amount += product.amount;
+        }
+
+        ;
+      }
+
+      return returnData;
+    },
+    selectedTotal: function selectedTotal() {
+      if (!this.selectedInvoice.products) return 0;
+      var total = 0;
+
+      for (var i = 0; i < this.selectedInvoice.products.length; i++) {
+        var element = this.selectedInvoice.products[i];
+        total += element.amount * element.product.price;
+      }
+
+      return total;
+    }
+  }
 });
 
 /***/ }),
@@ -44321,17 +44429,167 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "div",
-    { staticClass: "bg-dark rounded-bottom" },
-    _vm._l(_vm.data, function(invoice) {
-      return _c("div", { key: invoice.id }, [
-        _c("p", [
-          _vm._v(
-            "\n            " + _vm._s(JSON.stringify(invoice)) + "\n        "
-          )
-        ])
-      ])
-    }),
-    0
+    { staticClass: "bg-dark rounded-bottom p-4" },
+    [
+      _c("h2", { staticClass: "text-center" }, [_vm._v("Invoices")]),
+      _vm._v(" "),
+      _c(
+        "ttable",
+        {
+          staticClass: "align-middle text-center",
+          attrs: {
+            header: ["ID", "Due Date", "Bill To Name", "Extra Infomation"]
+          }
+        },
+        _vm._l(_vm.data, function(invoice) {
+          return _c("tr", { key: invoice.id }, [
+            _c("td", [_vm._v(_vm._s(invoice.id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(invoice.dueDate))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(invoice.billToName))]),
+            _vm._v(" "),
+            _c("td", [
+              _c("div", { staticClass: "d-grid gap-2" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "btn btn-primary",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.selectInvoiceView(invoice)
+                      }
+                    }
+                  },
+                  [_vm._v("Details")]
+                )
+              ])
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c("h2", { staticClass: "text-center" }, [_vm._v("Product Totals")]),
+      _vm._v(" "),
+      _c(
+        "ttable",
+        {
+          staticClass: "align-middle text-center",
+          attrs: {
+            header: [
+              "ID",
+              "Product Name",
+              "Total",
+              "Price Per #",
+              "Total Charged"
+            ]
+          }
+        },
+        _vm._l(_vm.productTotals, function(product) {
+          return _c("tr", { key: product.id }, [
+            _c("td", [_vm._v(_vm._s(product.id))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(product.name))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(product.amount))]),
+            _vm._v(" "),
+            _c("td", [_vm._v(_vm._s(_vm.currencyFormat(product.price * 1)))]),
+            _vm._v(" "),
+            _c("td", [
+              _vm._v(_vm._s(_vm.currencyFormat(product.price * product.amount)))
+            ])
+          ])
+        }),
+        0
+      ),
+      _vm._v(" "),
+      _c(
+        "tmodal",
+        {
+          attrs: { show: _vm.showModal },
+          on: {
+            close: function($event) {
+              _vm.showModal = false
+            }
+          }
+        },
+        [
+          _c("div", { staticClass: "modal-body" }, [
+            _c("h4", [_vm._v("Invoice #" + _vm._s(_vm.selectedInvoice.id))]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("h5", { staticClass: "text-start" }, [
+              _vm._v(_vm._s(_vm.selectedInvoice.billToName))
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "text-start" }, [
+              _vm._v(_vm._s(_vm.selectedInvoice.billToAddr1))
+            ]),
+            _vm._v(" "),
+            _c("h6", { staticClass: "text-start" }, [
+              _vm._v(_vm._s(_vm.selectedInvoice.billToAddr2))
+            ]),
+            _vm._v(" "),
+            _c("br"),
+            _vm._v(" "),
+            _c(
+              "table",
+              { staticClass: "w-100 table-primary" },
+              [
+                _c("tr", [
+                  _c("th", { staticClass: "col" }, [_vm._v("Name")]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "col" }, [_vm._v("Price Per")]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "col" }, [_vm._v("Amount")]),
+                  _vm._v(" "),
+                  _c("th", { staticClass: "col" }, [_vm._v("Total Due")])
+                ]),
+                _vm._v(" "),
+                _vm._l(_vm.selectedInvoice.products, function(product) {
+                  return _c("tr", { key: product.id }, [
+                    _c("td", [_vm._v(_vm._s(product.product.name))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.currencyFormat(product.product.price)))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(product.amount))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        _vm._s(
+                          _vm.currencyFormat(
+                            product.amount * product.product.price
+                          )
+                        )
+                      )
+                    ])
+                  ])
+                }),
+                _vm._v(" "),
+                _c("br"),
+                _vm._v(" "),
+                _c("h6", [
+                  _vm._v(
+                    "Total: " + _vm._s(_vm.currencyFormat(_vm.selectedTotal))
+                  )
+                ]),
+                _vm._v(" "),
+                _c("h6", { staticClass: "text-start" }, [
+                  _vm._v("Due: " + _vm._s(_vm.selectedInvoice.dueDate))
+                ])
+              ],
+              2
+            )
+          ])
+        ]
+      )
+    ],
+    1
   )
 }
 var staticRenderFns = []
