@@ -1,15 +1,14 @@
 <template>
     <div>
-        <tcollapse v-slot="{data}" v-for="summary in data" :key="summary.id" 
-        :title="summary.id + ' | ' + summary.created_at.split('T')[0]" 
-        @mouseover="getData(summary)">
-            <summaryView :data="summary.data"></summaryView>
-        </tcollapse>
+        <summaryDropdown v-for="summary in data" :key="summary.id" 
+        :d="summary" :masterData="data">
+        </summaryDropdown>
     </div>
 </template>
 
 <script>
 import summaryView from "./summary-view.vue";
+import summaryDropdown from "./summary-dropdown.vue";
 export default {
     props: ['d'],
     data: function() {
@@ -18,23 +17,9 @@ export default {
         }
     },
     methods: {
-        getData: function(summary) // Should have done this in other places aswell.
-        {
-            if (!summary.data)
-            {
-                let _this = this;
-                summary.data = {};
-                axios.get(`/summary/${summary.id}`)
-                .then(function(response){
-                    summary.data = response.data;
-                })
-                .catch(function(){
-                    _this.$toast.error("Oops! An error has occured!")
-                })
-            }
-        }
+    
     },
-    components: {summaryView}
+    components: {summaryDropdown}
 }
 </script>
 

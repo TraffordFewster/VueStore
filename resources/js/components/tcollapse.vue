@@ -13,11 +13,15 @@ export default {
     data: function() {
         return {
             show: this.expanded || false,
+            buttonToggleable : !this.canToggle,
         }
     },
     methods: {
         toggle: function() {
-            this.show = !this.show;
+            let _this = this;
+            this.$emit("blockToggle",function(shouldBlock) {
+                if (!shouldBlock) _this.show = !_this.show;
+            });
         }
     }
 }
