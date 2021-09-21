@@ -36,6 +36,13 @@ export default {
     computed:{
         filteredData: function() {
             let fData = this.data
+
+            if (!this.filters.archived){
+                fData = fData.filter((invoice) => {
+                    return !invoice.archived;
+                })
+            }
+            
             if (this.filters.overdue){
                 let today = new Date()
                 fData = fData.filter((invoice) => {
@@ -58,12 +65,6 @@ export default {
                 fData = fData.filter((invoice) => {
                     let search = this.filters.search.toLowerCase()
                     return invoice.billToName.toLowerCase().includes(search) || invoice.id.toString().toLowerCase().includes(search) || invoice.billToAddr1.toLowerCase().includes(search) || invoice.billToAddr2.toLowerCase().includes(search)
-                })
-            }
-
-            if (!this.filters.archived){
-                fData = fData.filter((invoice) => {
-                    return !invoice.archived;
                 })
             }
 

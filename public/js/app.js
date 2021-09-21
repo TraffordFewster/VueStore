@@ -2269,7 +2269,12 @@ __webpack_require__.r(__webpack_exports__);
     remove: function remove() {
       var ogThis = this;
       axios.post("/invoice/".concat(ogThis.invoice.id, "/archive")).then(function () {
-        ogThis.$toast.success("Invoice Archived!");
+        if (ogThis.invoice.archived) {
+          ogThis.$toast.success("Invoice Un-Archived!");
+        } else {
+          ogThis.$toast.success("Invoice Archived!");
+        }
+
         ogThis.$emit('archive');
       })["catch"](function () {
         ogThis.$toast.error("Oops! Something went wrong, please check the console.");
@@ -2826,6 +2831,12 @@ __webpack_require__.r(__webpack_exports__);
 
       var fData = this.data;
 
+      if (!this.filters.archived) {
+        fData = fData.filter(function (invoice) {
+          return !invoice.archived;
+        });
+      }
+
       if (this.filters.overdue) {
         var today = new Date();
         fData = fData.filter(function (invoice) {
@@ -2847,12 +2858,6 @@ __webpack_require__.r(__webpack_exports__);
           var search = _this.filters.search.toLowerCase();
 
           return invoice.billToName.toLowerCase().includes(search) || invoice.id.toString().toLowerCase().includes(search) || invoice.billToAddr1.toLowerCase().includes(search) || invoice.billToAddr2.toLowerCase().includes(search);
-        });
-      }
-
-      if (!this.filters.archived) {
-        fData = fData.filter(function (invoice) {
-          return !invoice.archived;
         });
       }
 
@@ -42824,7 +42829,9 @@ var render = function() {
         },
         [
           _vm._v(
-            "\n        Archive invoice #" +
+            "\n        " +
+              _vm._s(_vm.invoice.archived ? "Un-" : "") +
+              "Archive invoice #" +
               _vm._s(_vm.invoice.id) +
               " addressed to " +
               _vm._s(_vm.invoice.billToName) +

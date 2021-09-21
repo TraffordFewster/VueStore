@@ -2,7 +2,7 @@
   <span>
       <button type="button" class="btn btn-dark" v-on:click="showModal = true">Archive</button>
       <confirmBox :show="showModal" @accept="remove" @deny="showModal = false">
-          Archive invoice #{{invoice.id}} addressed to {{invoice.billToName}}?
+          {{invoice.archived ? 'Un-' : ''}}Archive invoice #{{invoice.id}} addressed to {{invoice.billToName}}?
       </confirmBox>
   </span>
 </template>
@@ -22,7 +22,11 @@ export default {
             let ogThis = this;
             axios.post(`/invoice/${ogThis.invoice.id}/archive`)
             .then(function(){
-                ogThis.$toast.success("Invoice Archived!")
+                if (ogThis.invoice.archived) {
+                    ogThis.$toast.success("Invoice Un-Archived!")
+                } else {
+                    ogThis.$toast.success("Invoice Archived!")
+                }
                 ogThis.$emit('archive')
             })
             .catch(function(){
