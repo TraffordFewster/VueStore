@@ -2233,6 +2233,55 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _confirmBox_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../confirmBox.vue */ "./resources/js/components/confirmBox.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: ['invoice'],
+  components: {
+    confirmBox: _confirmBox_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+  },
+  data: function data() {
+    return {
+      showModal: false
+    };
+  },
+  methods: {
+    remove: function remove() {
+      var ogThis = this;
+      axios.post("/invoice/".concat(ogThis.invoice.id, "/archive")).then(function () {
+        ogThis.$toast.success("Invoice Archived!");
+        ogThis.$emit('archive');
+      })["catch"](function () {
+        ogThis.$toast.error("Oops! Something went wrong, please check the console.");
+      })["finally"](function () {
+        ogThis.showModal = false;
+      });
+    }
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-basics-form.vue?vue&type=script&lang=js&":
 /*!**********************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-basics-form.vue?vue&type=script&lang=js& ***!
@@ -2916,6 +2965,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _invoice_view_button_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./invoice-view-button.vue */ "./resources/js/components/invoice/invoice-view-button.vue");
 /* harmony import */ var _invoice_edit_button_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./invoice-edit-button.vue */ "./resources/js/components/invoice/invoice-edit-button.vue");
 /* harmony import */ var _invoice_delete_button_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./invoice-delete-button.vue */ "./resources/js/components/invoice/invoice-delete-button.vue");
+/* harmony import */ var _invoice_archive_button_vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./invoice-archive-button.vue */ "./resources/js/components/invoice/invoice-archive-button.vue");
 //
 //
 //
@@ -2931,6 +2981,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+
 
 
 
@@ -2938,7 +2990,8 @@ __webpack_require__.r(__webpack_exports__);
   components: {
     viewButton: _invoice_view_button_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
     editButton: _invoice_edit_button_vue__WEBPACK_IMPORTED_MODULE_1__["default"],
-    deleteButton: _invoice_delete_button_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
+    deleteButton: _invoice_delete_button_vue__WEBPACK_IMPORTED_MODULE_2__["default"],
+    archiveButton: _invoice_archive_button_vue__WEBPACK_IMPORTED_MODULE_3__["default"]
   },
   props: ['invoice', 'allproducts'],
   data: function data() {
@@ -2981,6 +3034,9 @@ __webpack_require__.r(__webpack_exports__);
     },
     remove: function remove() {
       this.$emit('remove', this.invoice.id);
+    },
+    archive: function archive() {
+      this.data.archived = !this.data.archived;
     }
   }
 });
@@ -40488,6 +40544,45 @@ component.options.__file = "resources/js/components/header/headerList.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/invoice/invoice-archive-button.vue":
+/*!********************************************************************!*\
+  !*** ./resources/js/components/invoice/invoice-archive-button.vue ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./invoice-archive-button.vue?vue&type=template&id=1bd9082c& */ "./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c&");
+/* harmony import */ var _invoice_archive_button_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./invoice-archive-button.vue?vue&type=script&lang=js& */ "./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _invoice_archive_button_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__.render,
+  _invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/invoice/invoice-archive-button.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/invoice/invoice-basics-form.vue":
 /*!*****************************************************************!*\
   !*** ./resources/js/components/invoice/invoice-basics-form.vue ***!
@@ -41452,6 +41547,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js&":
+/*!*********************************************************************************************!*\
+  !*** ./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js& ***!
+  \*********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_invoice_archive_button_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./invoice-archive-button.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_invoice_archive_button_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/invoice/invoice-basics-form.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************!*\
   !*** ./resources/js/components/invoice/invoice-basics-form.vue?vue&type=script&lang=js& ***!
@@ -42006,6 +42117,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_headerList_vue_vue_type_template_id_1e61ac52___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_headerList_vue_vue_type_template_id_1e61ac52___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./headerList.vue?vue&type=template&id=1e61ac52& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/header/headerList.vue?vue&type=template&id=1e61ac52&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c&":
+/*!***************************************************************************************************!*\
+  !*** ./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c& ***!
+  \***************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_invoice_archive_button_vue_vue_type_template_id_1bd9082c___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./invoice-archive-button.vue?vue&type=template&id=1bd9082c& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c&");
 
 
 /***/ }),
@@ -42643,6 +42771,71 @@ var render = function() {
       1
     )
   ])
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c&":
+/*!******************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/invoice/invoice-archive-button.vue?vue&type=template&id=1bd9082c& ***!
+  \******************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "span",
+    [
+      _c(
+        "button",
+        {
+          staticClass: "btn btn-dark",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              _vm.showModal = true
+            }
+          }
+        },
+        [_vm._v("Archive")]
+      ),
+      _vm._v(" "),
+      _c(
+        "confirmBox",
+        {
+          attrs: { show: _vm.showModal },
+          on: {
+            accept: _vm.remove,
+            deny: function($event) {
+              _vm.showModal = false
+            }
+          }
+        },
+        [
+          _vm._v(
+            "\n        Archive invoice #" +
+              _vm._s(_vm.invoice.id) +
+              " addressed to " +
+              _vm._s(_vm.invoice.billToName) +
+              "?\n    "
+          )
+        ]
+      )
+    ],
+    1
+  )
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -43601,6 +43794,11 @@ var render = function() {
         _c("editButton", {
           attrs: { invoice: _vm.data, allproducts: _vm.allproducts },
           on: { editted: _vm.edit }
+        }),
+        _vm._v(" "),
+        _c("archiveButton", {
+          attrs: { invoice: _vm.data },
+          on: { archive: _vm.archive }
         }),
         _vm._v(" "),
         _c("deleteButton", {
