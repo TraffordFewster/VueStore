@@ -30,7 +30,7 @@ Route::resource('/invoice', InvoiceController::class, [
 ]);
 
 Route::post('/invoice/{invoice}/email', [InvoiceController::class, 'email']);
-
+Route::post('invoice/{invoice}/archive', [InvoiceController::class,'archive']);
 
 Route::put('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'update']);
 Route::delete('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'destroy']);
