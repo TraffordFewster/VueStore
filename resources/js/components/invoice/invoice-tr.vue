@@ -1,5 +1,5 @@
 <template>
-  <tr>
+  <tr :class="{'table-info' : data.archived}">
         <td class="text-center align-middle">{{data.id}}</td>
         <td class="text-center align-middle">{{data.created_at.substr(0, data.created_at.indexOf('T'))}}</td>
         <td class="text-center align-middle">{{dueDate}}</td>

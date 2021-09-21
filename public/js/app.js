@@ -2816,7 +2816,7 @@ __webpack_require__.r(__webpack_exports__);
       filters: {
         overdue: false,
         over10k: false,
-        over100k: false
+        archived: false
       }
     };
   },
@@ -2842,18 +2842,17 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
 
-      if (this.filters.over100k) {
-        fData = fData.filter(function (invoice) {
-          if (_this.totalInvoice(invoice) >= 100000) return true;
-          return false;
-        });
-      }
-
       if (this.filters.search) {
         fData = fData.filter(function (invoice) {
           var search = _this.filters.search.toLowerCase();
 
           return invoice.billToName.toLowerCase().includes(search) || invoice.id.toString().toLowerCase().includes(search) || invoice.billToAddr1.toLowerCase().includes(search) || invoice.billToAddr2.toLowerCase().includes(search);
+        });
+      }
+
+      if (!this.filters.archived) {
+        fData = fData.filter(function (invoice) {
+          return !invoice.archived;
         });
       }
 
@@ -43591,7 +43590,7 @@ var render = function() {
             _c("filterButton", {
               attrs: {
                 filterName: "> £10,000",
-                type: "light",
+                type: "success",
                 model: _vm.filters.over10k
               },
               on: {
@@ -43603,13 +43602,13 @@ var render = function() {
             _vm._v(" "),
             _c("filterButton", {
               attrs: {
-                filterName: "> £100,000",
-                type: "light",
-                model: _vm.filters.over100k
+                filterName: "Archived",
+                type: "info",
+                model: _vm.filters.archived
               },
               on: {
                 change: function($event) {
-                  _vm.filters.over100k = !_vm.filters.over100k
+                  _vm.filters.archived = !_vm.filters.archived
                 }
               }
             })
@@ -43760,7 +43759,7 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("tr", [
+  return _c("tr", { class: { "table-info": _vm.data.archived } }, [
     _c("td", { staticClass: "text-center align-middle" }, [
       _vm._v(_vm._s(_vm.data.id))
     ]),

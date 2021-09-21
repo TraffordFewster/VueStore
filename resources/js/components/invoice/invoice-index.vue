@@ -4,8 +4,8 @@
         <div class="mt-2 d-flex align-middle">
             <span class="d-flex align-middle">
                 <filterButton @change="filters.overdue = !filters.overdue" filterName="Overdue" type="danger" :model="filters.overdue"></filterButton>
-                <filterButton @change="filters.over10k = !filters.over10k" filterName="> £10,000" type="light" :model="filters.over10k"></filterButton>
-                <filterButton @change="filters.over100k = !filters.over100k" filterName="> £100,000" type="light" :model="filters.over100k"></filterButton>
+                <filterButton @change="filters.over10k = !filters.over10k" filterName="> £10,000" type="success" :model="filters.over10k"></filterButton>
+                <filterButton @change="filters.archived = !filters.archived" filterName="Archived" type="info" :model="filters.archived"></filterButton>
             </span>
             <span style="margin-left:auto; flex: 1;">
                 <input v-model="filters.search" placeholder="Search..." type="text" class="form-control ml-auto" style="width:100%">
@@ -29,7 +29,7 @@ export default {
             filters: {
                 overdue: false,
                 over10k: false,
-                over100k: false,
+                archived: false,
             }
         }
     },
@@ -53,19 +53,17 @@ export default {
                 })
             }
 
-            if (this.filters.over100k)
-            {
-                fData = fData.filter((invoice) => {
-                    if (this.totalInvoice(invoice) >= 100000) return true;
-                    return false;
-                })
-            }
-
             if (this.filters.search)
             {
                 fData = fData.filter((invoice) => {
                     let search = this.filters.search.toLowerCase()
                     return invoice.billToName.toLowerCase().includes(search) || invoice.id.toString().toLowerCase().includes(search) || invoice.billToAddr1.toLowerCase().includes(search) || invoice.billToAddr2.toLowerCase().includes(search)
+                })
+            }
+
+            if (!this.filters.archived){
+                fData = fData.filter((invoice) => {
+                    return !invoice.archived;
                 })
             }
 
