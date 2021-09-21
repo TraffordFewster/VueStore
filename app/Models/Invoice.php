@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Invoice extends Model
 {
-    public $fillable = ['billToName','billToAddr1','billToAddr2','dueDate'];
+    public $fillable = ['billToName','billToAddr1','billToAddr2','dueDate','archived'];
     use HasFactory;
 
     public function products()

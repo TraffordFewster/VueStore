@@ -100,4 +100,12 @@ class InvoiceController extends Controller
         $invoice->delete();
         return ['success' => true];
     }
+
+
+    public function archive(Invoice $invoice)
+    {
+        $invoice->update(['archived' => !$invoice->archived]);
+        $invoice->save();
+        return ['success' => true];
+    }
 }
