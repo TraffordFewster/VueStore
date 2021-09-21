@@ -1,6 +1,6 @@
 <template>
   <span>
-      <button type="button" class="btn btn-danger" v-on:click="showModal = true">Delete</button>
+      <button title="Delete" type="button" class="btn btn-danger py-2" v-on:click="showModal = true"><i class="fas fa-trash-alt"></i></button>
       <confirmBox :show="showModal" @accept="remove" @deny="showModal = false">
           Remove invoice #{{invoice.id}} addressed to {{invoice.billToName}}?
       </confirmBox>

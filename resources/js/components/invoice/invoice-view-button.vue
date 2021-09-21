@@ -1,6 +1,6 @@
 <template>
     <span>
-        <button type="button" class="btn btn-primary" v-on:click="showModal = true">View</button>
+        <button title="View" type="button" class="btn btn-primary py-2" v-on:click="showModal = true"><i class="fas fa-eye"></i></button>
         <tmodal :show="showModal" title="View Invoice" @close="close">
             <div class="modal-body">
                 <h4>Invoice #{{data.id}}</h4>

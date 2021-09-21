@@ -1,6 +1,6 @@
 <template>
   <span>
-      <button type="button" class="btn btn-warning" v-on:click="showModal = true">Edit</button>
+      <button title="Edit" type="button" class="btn btn-warning py-2" v-on:click="showModal = true"><i class="fas fa-edit"></i></button>
       <tmodal :show="showModal" :title="'Edit Invoice #'+invoice.id" @close="close" :large="true">
             <form v-on:submit.prevent="" autocomplete="off">
                 <div class="modal-body text-start">

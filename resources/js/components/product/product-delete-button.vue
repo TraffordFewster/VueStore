@@ -1,6 +1,6 @@
 <template>
     <span>
-        <button type="button" class="btn btn-danger" v-on:click="show = true">Delete</button>
+        <button title="Delete" type="button" class="btn btn-danger py-2" v-on:click="show = true"><i class="fas fa-trash-alt"></i></button>
         <tmodal :show="show" @close="close" :title="'Delete ' + item.title +'?'">
             <div class="modal-body">
 
