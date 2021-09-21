@@ -3253,8 +3253,15 @@ __webpack_require__.r(__webpack_exports__);
           return submitThis.close();
         }, 0);
         submitThis.$emit("new", data.data);
+        submitThis.$toast.success("New product created!");
       })["catch"](function (err) {
+        console.log(err);
         submitThis.errors = err.response.data.errors;
+
+        for (var property in submitThis.errors) {
+          var msg = submitThis.errors[property][0];
+          submitThis.$toast.error(msg);
+        }
       })["finally"](function () {
         submitThis.checking = false;
       });
@@ -3454,8 +3461,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         setTimeout(function () {
           return submitThis.close();
         }, 0);
+        submitThis.$toast.success("Product updated!");
       })["catch"](function (err) {
+        console.log(err);
         submitThis.errors = err.response.data.errors;
+
+        for (var property in submitThis.errors) {
+          var msg = submitThis.errors[property][0];
+          submitThis.$toast.error(msg);
+        }
       })["finally"](function () {
         submitThis.checking = false;
       });

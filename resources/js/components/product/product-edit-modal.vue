@@ -57,10 +57,18 @@ export default {
             axios.put("/product/" + this.item.id, {name: submitThis.newItem.title, price: submitThis.newItem.price})
             .then(data => {
                 submitThis.$emit('update', {...submitThis.newItem});
-                setTimeout( ()=> submitThis.close(), 0)
+                setTimeout( ()=> submitThis.close(), 0);
+                submitThis.$toast.success("Product updated!")
             })
-            .catch((err) => {
+            .catch(function (err) {
+                console.log(err);
                 submitThis.errors = err.response.data.errors;
+                for (const property in submitThis.errors)
+                {
+                    let msg = submitThis.errors[property][0]
+                    submitThis.$toast.error(msg)
+                }
+
             })
             .finally(() => {
                 submitThis.checking = false;

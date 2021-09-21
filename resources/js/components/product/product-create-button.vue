@@ -61,9 +61,17 @@ export default {
             .then(data => {
                 setTimeout( ()=> submitThis.close(), 0)
                 submitThis.$emit("new",data.data)
+                submitThis.$toast.success("New product created!")
             })
-            .catch((err) => {
+            .catch(function (err) {
+                console.log(err);
                 submitThis.errors = err.response.data.errors;
+                for (const property in submitThis.errors)
+                {
+                    let msg = submitThis.errors[property][0]
+                    submitThis.$toast.error(msg)
+                }
+
             })
             .finally(() => {
                 submitThis.checking = false;
