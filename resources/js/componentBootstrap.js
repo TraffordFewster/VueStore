@@ -12,9 +12,12 @@ Vue.use(Toast, {
 Vue.component('theader',require('./components/theader.vue').default)
 Vue.component('ttable',require('./components/ttable.vue').default)
 Vue.component('tmodal',require('./components/t-modal.vue').default)
+Vue.component('tcollapse',require('./components/tcollapse.vue').default)
 
 Vue.component('product-index', require('./components/product/product-index').default)
 Vue.component('product-tr', require('./components/product/product-tr.vue').default)
 Vue.component('product-create', require('./components/product/product-create-button').default)
 
 Vue.component('invoice-index', require('./components/invoice/invoice-index').default)
+
+Vue.component('summary-index', require('./components/summary/summary-index').default)

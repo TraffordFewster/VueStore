@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\InvoiceController;
 use App\Http\Controllers\InvoiceProductController;
+use App\Http\Controllers\SummaryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,6 @@ Route::post('/invoice/{invoice}/email', [InvoiceController::class, 'email']);
 Route::put('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'update']);
 Route::delete('/invoice/{invoice}/products/{invoiceProduct}', [InvoiceProductController::class,'destroy']);
 Route::post('/invoice/{invoice}/products', [InvoiceProductController::class,'store']);
+
+Route::get('/summary', [SummaryController::class,'index']);
+Route::get('/summary/{summary}', [SummaryController::class,'view']);
