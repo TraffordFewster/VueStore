@@ -42853,6 +42853,7 @@ var render = function() {
           _c(
             "form",
             {
+              attrs: { autocomplete: "off" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -43112,6 +43113,7 @@ var render = function() {
           _c(
             "form",
             {
+              attrs: { autocomplete: "off" },
               on: {
                 submit: function($event) {
                   $event.preventDefault()
@@ -43146,115 +43148,127 @@ var render = function() {
             ]
           ),
           _vm._v(" "),
-          _c("div", { staticClass: "modal-footer" }, [
-            _c(
-              "table",
-              { staticClass: "table", staticStyle: { "max-width": "100%" } },
-              [
-                _c("thead", [
-                  _c("tr", [
-                    _c("th", [_vm._v("Product")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Amount")]),
-                    _vm._v(" "),
-                    _c("th", [_vm._v("Actions")])
-                  ])
-                ]),
-                _vm._v(" "),
-                _c(
-                  "tbody",
-                  _vm._l(_vm.data.products, function(product) {
-                    return _c("tr", { key: product.id }, [
-                      _c("td", { staticClass: "align-middle" }, [
-                        _vm._v(
-                          "\n                              " +
-                            _vm._s(_vm.getProduct(product.product_id).name) +
-                            "    \n                          "
-                        )
-                      ]),
+          _c(
+            "form",
+            {
+              staticClass: "modal-footer",
+              attrs: { autocomplete: "off" },
+              on: {
+                submit: function($event) {
+                  $event.preventDefault()
+                }
+              }
+            },
+            [
+              _c(
+                "table",
+                { staticClass: "table", staticStyle: { "max-width": "100%" } },
+                [
+                  _c("thead", [
+                    _c("tr", [
+                      _c("th", [_vm._v("Product")]),
                       _vm._v(" "),
-                      _c("td", { staticClass: "align-middle" }, [
-                        _c("input", {
-                          directives: [
-                            {
-                              name: "model",
-                              rawName: "v-model",
-                              value: product.amount,
-                              expression: "product.amount"
-                            }
-                          ],
-                          staticClass: "form-control",
-                          class: {
-                            "border border-danger":
-                              _vm.errors[product.id + "amount"]
-                          },
-                          attrs: { type: "number", name: "amount" },
-                          domProps: { value: product.amount },
-                          on: {
-                            keydown: function($event) {
-                              _vm.errors[product.id + "amount"] = false
-                            },
-                            input: function($event) {
-                              if ($event.target.composing) {
-                                return
-                              }
-                              _vm.$set(product, "amount", $event.target.value)
-                            }
-                          }
-                        })
-                      ]),
+                      _c("th", [_vm._v("Amount")]),
                       _vm._v(" "),
-                      _c("td", { staticClass: "align-middle" }, [
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-success",
-                            attrs: { disabled: _vm.updateLocked },
-                            on: {
-                              click: function($event) {
-                                return _vm.editProduct(product)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-save" })]
-                        ),
-                        _vm._v(" "),
-                        _c(
-                          "button",
-                          {
-                            staticClass: "btn btn-danger",
-                            attrs: { disabled: _vm.updateLocked },
-                            on: {
-                              click: function($event) {
-                                return _vm.removeProduct(product)
-                              }
-                            }
-                          },
-                          [_c("i", { staticClass: "fas fa-trash" })]
-                        )
-                      ])
+                      _c("th", [_vm._v("Actions")])
                     ])
-                  }),
-                  0
-                ),
-                _vm._v(" "),
-                _c(
-                  "tfoot",
-                  [
-                    _c("invoiceNewProduct", {
-                      attrs: {
-                        "v-model": _vm.newproduct,
-                        updateLocked: _vm.updateLocked,
-                        allproducts: _vm.allproducts
-                      },
-                      on: { Create: _vm.createProduct }
-                    })
-                  ],
-                  1
-                )
-              ]
-            )
-          ])
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "tbody",
+                    _vm._l(_vm.data.products, function(product) {
+                      return _c("tr", { key: product.id }, [
+                        _c("td", { staticClass: "align-middle" }, [
+                          _vm._v(
+                            "\n                              " +
+                              _vm._s(_vm.getProduct(product.product_id).name) +
+                              "    \n                          "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "align-middle" }, [
+                          _c("input", {
+                            directives: [
+                              {
+                                name: "model",
+                                rawName: "v-model",
+                                value: product.amount,
+                                expression: "product.amount"
+                              }
+                            ],
+                            staticClass: "form-control",
+                            class: {
+                              "border border-danger":
+                                _vm.errors[product.id + "amount"]
+                            },
+                            attrs: { type: "number", name: "amount" },
+                            domProps: { value: product.amount },
+                            on: {
+                              keydown: function($event) {
+                                _vm.errors[product.id + "amount"] = false
+                              },
+                              input: function($event) {
+                                if ($event.target.composing) {
+                                  return
+                                }
+                                _vm.$set(product, "amount", $event.target.value)
+                              }
+                            }
+                          })
+                        ]),
+                        _vm._v(" "),
+                        _c("td", { staticClass: "align-middle" }, [
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-success",
+                              attrs: { disabled: _vm.updateLocked },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editProduct(product)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-save" })]
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass: "btn btn-danger",
+                              attrs: { disabled: _vm.updateLocked },
+                              on: {
+                                click: function($event) {
+                                  return _vm.removeProduct(product)
+                                }
+                              }
+                            },
+                            [_c("i", { staticClass: "fas fa-trash" })]
+                          )
+                        ])
+                      ])
+                    }),
+                    0
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "tfoot",
+                    [
+                      _c("invoiceNewProduct", {
+                        attrs: {
+                          "v-model": _vm.newproduct,
+                          updateLocked: _vm.updateLocked,
+                          allproducts: _vm.allproducts
+                        },
+                        on: { Create: _vm.createProduct }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            ]
+          )
         ]
       )
     ],
