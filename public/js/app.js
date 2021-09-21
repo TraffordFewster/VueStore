@@ -42805,15 +42805,15 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-dark",
-          attrs: { type: "button" },
+          staticClass: "btn btn-dark py-2",
+          attrs: { title: "Archive", type: "button" },
           on: {
             click: function($event) {
               _vm.showModal = true
             }
           }
         },
-        [_vm._v("Archive")]
+        [_c("i", { staticClass: "fas fa-archive" })]
       ),
       _vm._v(" "),
       _c(
@@ -43222,15 +43222,15 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button" },
+          staticClass: "btn btn-danger py-2",
+          attrs: { title: "Delete", type: "button" },
           on: {
             click: function($event) {
               _vm.showModal = true
             }
           }
         },
-        [_vm._v("Delete")]
+        [_c("i", { staticClass: "fas fa-trash-alt" })]
       ),
       _vm._v(" "),
       _c(
@@ -43287,15 +43287,15 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-warning",
-          attrs: { type: "button" },
+          staticClass: "btn btn-warning py-2",
+          attrs: { title: "Edit", type: "button" },
           on: {
             click: function($event) {
               _vm.showModal = true
             }
           }
         },
-        [_vm._v("Edit")]
+        [_c("i", { staticClass: "fas fa-edit" })]
       ),
       _vm._v(" "),
       _c(
@@ -43845,15 +43845,15 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
-          attrs: { type: "button" },
+          staticClass: "btn btn-primary py-2",
+          attrs: { title: "View", type: "button" },
           on: {
             click: function($event) {
               _vm.showModal = true
             }
           }
         },
-        [_vm._v("View")]
+        [_c("i", { staticClass: "fas fa-eye" })]
       ),
       _vm._v(" "),
       _c(
@@ -44184,15 +44184,15 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-danger",
-          attrs: { type: "button" },
+          staticClass: "btn btn-danger py-2",
+          attrs: { title: "Delete", type: "button" },
           on: {
             click: function($event) {
               _vm.show = true
             }
           }
         },
-        [_vm._v("Delete")]
+        [_c("i", { staticClass: "fas fa-trash-alt" })]
       ),
       _vm._v(" "),
       _c(
@@ -44266,11 +44266,11 @@ var render = function() {
       _c(
         "button",
         {
-          staticClass: "btn btn-primary",
-          attrs: { type: "button" },
+          staticClass: "btn btn-primary py-2",
+          attrs: { title: "Edit", type: "button" },
           on: { click: _vm.buttonPressed }
         },
-        [_vm._v("Edit")]
+        [_c("i", { staticClass: "fas fa-edit" })]
       ),
       _vm._v(" "),
       _c("editModal", {

@@ -1,6 +1,6 @@
 <template>
   <span>
-      <button type="button" class="btn btn-dark" v-on:click="showModal = true">Archive</button>
+      <button title="Archive" type="button" class="btn btn-dark py-2" v-on:click="showModal = true"><i class="fas fa-archive"></i></button>
       <confirmBox :show="showModal" @accept="remove" @deny="showModal = false">
           {{invoice.archived ? 'Un-' : ''}}Archive invoice #{{invoice.id}} addressed to {{invoice.billToName}}?
       </confirmBox>

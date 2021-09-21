@@ -1,6 +1,6 @@
 <template>
     <span>
-        <button type="button" class="btn btn-primary" v-on:click="buttonPressed">Edit</button>
+        <button title="Edit" type="button" class="btn btn-primary py-2" v-on:click="buttonPressed"><i class="fas fa-edit"></i></button>
         <editModal :item="this.item" :show="showModal" @closeModal="closeModal" @update="update"></editModal>
     </span>
 </template>
