@@ -2,13 +2,13 @@
   <span>
       <button type="button" class="btn btn-warning" v-on:click="showModal = true">Edit</button>
       <tmodal :show="showModal" :title="'Edit Invoice #'+invoice.id" @close="close" :large="true">
-            <form v-on:submit.prevent="">
+            <form v-on:submit.prevent="" autocomplete="off">
                 <div class="modal-body text-start">
                     <invoiceBasicsForm :updateLocked="updateLocked" :errors="errors" :model="data"></invoiceBasicsForm>
                     <button v-on:click="edit" :disabled="updateLocked" class="btn btn-success w-100">Update</button>
                 </div>
             </form>
-            <div class="modal-footer">
+            <form v-on:submit.prevent="" class="modal-footer" autocomplete="off">
                 <table class="table" style="max-width: 100%;">
                     <thead>
                         <tr>
@@ -36,7 +36,7 @@
                         </invoiceNewProduct>
                     </tfoot>
                 </table>
-            </div>
+            </form>
       </tmodal>
   </span>
 </template>

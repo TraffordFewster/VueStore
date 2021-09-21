@@ -2,7 +2,7 @@
   <span>
         <button type="button" class="btn btn-success btn-sm mt-2 w-100" v-on:click="showModal = true">Create</button>
         <tmodal :show="showModal" title="Create Invoice" @close="showModal = false">
-            <form  v-on:submit.prevent="">
+            <form  v-on:submit.prevent="" autocomplete="off">
                 <div class="modal-body">
                     <invoiceBasicsForm :errors="errors" :model="data"></invoiceBasicsForm>
             
