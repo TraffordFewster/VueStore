@@ -1,20 +1,14 @@
 <template>
     <span>
         <button title="Delete" type="button" class="btn btn-danger py-2" v-on:click="show = true"><i class="fas fa-trash-alt"></i></button>
-        <tmodal :show="show" @close="close" :title="'Delete ' + item.title +'?'">
-            <div class="modal-body">
-
-                <p>Are you sure you want to delete "{{this.item.title}}"?</p>
-                
-                <button type="button" class="btn btn-secondary btn-lg btn-block" v-on:click="close" >Cancel</button>
-                <button type="button" :disabled="sending" class="btn btn-danger btn-lg btn-block" v-on:click="del">Delete</button>
-
-            </div>
-        </tmodal>
+        <confirmBox :show="show" @deny="close" @accept="del">
+            Are you sure you want to delete "{{this.item.title}}"?
+        </confirmBox>
     </span>
 </template>
 
 <script>
+import confirmBox from '../confirmBox.vue';
 export default {
     props: ['item'],
     data: function () {
@@ -41,7 +35,8 @@ export default {
                 thisthis.sending = false;
             })
         }
-    }
+    },
+    components: {confirmBox},
 }
 </script>
 

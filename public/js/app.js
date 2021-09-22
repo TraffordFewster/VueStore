@@ -3253,8 +3253,15 @@ __webpack_require__.r(__webpack_exports__);
           return submitThis.close();
         }, 0);
         submitThis.$emit("new", data.data);
+        submitThis.$toast.success("New product created!");
       })["catch"](function (err) {
+        console.log(err);
         submitThis.errors = err.response.data.errors;
+
+        for (var property in submitThis.errors) {
+          var msg = submitThis.errors[property][0];
+          submitThis.$toast.error(msg);
+        }
       })["finally"](function () {
         submitThis.checking = false;
       });
@@ -3281,6 +3288,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _confirmBox_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../confirmBox.vue */ "./resources/js/components/confirmBox.vue");
 //
 //
 //
@@ -3290,13 +3298,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: ['item'],
   data: function data() {
@@ -3323,6 +3325,9 @@ __webpack_require__.r(__webpack_exports__);
         thisthis.sending = false;
       });
     }
+  },
+  components: {
+    confirmBox: _confirmBox_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -3456,8 +3461,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         setTimeout(function () {
           return submitThis.close();
         }, 0);
+        submitThis.$toast.success("Product updated!");
       })["catch"](function (err) {
+        console.log(err);
         submitThis.errors = err.response.data.errors;
+
+        for (var property in submitThis.errors) {
+          var msg = submitThis.errors[property][0];
+          submitThis.$toast.error(msg);
+        }
       })["finally"](function () {
         submitThis.checking = false;
       });
@@ -44196,41 +44208,14 @@ var render = function() {
       ),
       _vm._v(" "),
       _c(
-        "tmodal",
-        {
-          attrs: { show: _vm.show, title: "Delete " + _vm.item.title + "?" },
-          on: { close: _vm.close }
-        },
+        "confirmBox",
+        { attrs: { show: _vm.show }, on: { deny: _vm.close, accept: _vm.del } },
         [
-          _c("div", { staticClass: "modal-body" }, [
-            _c("p", [
-              _vm._v(
-                'Are you sure you want to delete "' +
-                  _vm._s(this.item.title) +
-                  '"?'
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-secondary btn-lg btn-block",
-                attrs: { type: "button" },
-                on: { click: _vm.close }
-              },
-              [_vm._v("Cancel")]
-            ),
-            _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "btn btn-danger btn-lg btn-block",
-                attrs: { type: "button", disabled: _vm.sending },
-                on: { click: _vm.del }
-              },
-              [_vm._v("Delete")]
-            )
-          ])
+          _vm._v(
+            '\n        Are you sure you want to delete "' +
+              _vm._s(this.item.title) +
+              '"?\n    '
+          )
         ]
       )
     ],
