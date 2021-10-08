@@ -33,6 +33,11 @@ export default {
             }
         }
     },
+    mounted: function() {
+        this.data.forEach(invoice => {
+            invoice.archived = parseInt(invoice.archived);
+        });
+    },
     computed:{
         filteredData: function() {
             let fData = this.data
